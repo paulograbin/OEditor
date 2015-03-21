@@ -8,20 +8,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Heroic Features - Start Bootstrap Template</title>
+    <title>O Editor de Texto...</title>
 
+    <!-- CKEditor js -->
+    <script src="ckeditor/ckeditor.js"></script>
+    
     <!-- Bootstrap Core CSS -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="bootstrap/css/heroic-features.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 <body>
@@ -37,19 +33,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="#">O Editor de Texto</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">About</a>
+                        <a href="http://www.unisinos.br/">Unisinos</a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <a href="http://moodle.unisinos.br/">Moodle</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a href="http://github.com/paulograbin/DevWeb">Código fonte</a>
                     </li>
                 </ul>
             </div>
@@ -63,18 +59,76 @@
 
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer">
-            <h1>A Warm Welcome!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa, ipsam, eligendi, in quo sunt possimus non incidunt odit vero aliquid similique quaerat nam nobis illo aspernatur vitae fugiat numquam repellat.</p>
-            <p><a class="btn btn-primary btn-large">Call to action!</a>
+            <h1>Olá!</h1>
+            <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer agora?</p>
+            <p><a class="btn btn-primary btn-large" onclick="createEditor();">Criar novo texto</a>
             </p>
+            
+            <!-- This div will hold the editor. -->
+            <div id="editor"></div>
+            <div id="contents" style="display: none">
+                <p>
+                    Edited Contents:
+                </p>
+                <!-- This div will be used to display the editor contents. -->
+                <div id="editorcontents">
+                </div>
+            </div>
+            
+            <script>
+
+                var editor, html = '';
+
+                function createEditor() {
+                    if ( editor )
+                        return;
+
+                    // Create a new editor inside the <div id="editor">, setting its value to html
+                    var config = {};
+                    editor = CKEDITOR.appendTo( 'editor', config, html );
+                }
+
+                function removeEditor() {
+                    if ( !editor )
+                        return;
+
+                    // Retrieve the editor contents. In an Ajax application, this data would be
+                    // sent to the server or used in any other way.
+                    document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
+                    document.getElementById( 'contents' ).style.display = '';
+
+                    // Destroy the editor.
+                    editor.destroy();
+                    editor = null;
+                }
+
+            </script>
         </header>
 
         <hr>
-
+        
+       
+        <script type="text/javascript">
+            function scriptSalva() {
+                alert('Alertou');
+        }
+        </script>
+            
+        <script>
+            // Test for checking if local storage is available.
+            if(typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                 alert('Browser suporta localStorage.');
+            } else {
+                // Sorry! No Web Storage support..
+                 alert('Browser NÃO suporta localStorage.');
+            }
+        </script>
+        
         <!-- Title -->
         <div class="row">
             <div class="col-lg-12">
-                <h3>Latest Features</h3>
+                <h3>Ultimos textos gravados...</h3>
             </div>
         </div>
         <!-- /.row -->
@@ -84,7 +138,6 @@
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
                     <div class="caption">
                         <h3>Feature Label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -97,7 +150,6 @@
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
                     <div class="caption">
                         <h3>Feature Label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -110,7 +162,6 @@
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
                     <div class="caption">
                         <h3>Feature Label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -123,7 +174,6 @@
 
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
-                    <img src="http://placehold.it/800x500" alt="">
                     <div class="caption">
                         <h3>Feature Label</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
@@ -143,7 +193,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright &copy; Your Website 2014</p>
+                    <p>Desenvolvido por Alexandre, Matheus, Paulo e Thiago. &copy; Your Website 2014</p>
                 </div>
             </div>
         </footer>
