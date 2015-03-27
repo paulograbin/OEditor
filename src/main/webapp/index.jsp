@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@ page import="org.springframework.samples.service.service.FileManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,7 +9,6 @@
 <html>
 <head>
 
-	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -26,6 +26,11 @@
 </head>
 <body>
     
+    <%
+        	FileManager s = FileManager.getService();
+            s.init(request.getRealPath(""));
+    %>
+    
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
@@ -39,9 +44,10 @@
                 </button>
                 <a class="navbar-brand" href="#">O Editor de Texto</a>
             </div>
+            
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-left">
                     <li>
                         <a href="http://www.unisinos.br/">Unisinos</a>
                     </li>
@@ -52,6 +58,12 @@
                         <a href="http://github.com/paulograbin/DevWeb">Código fonte</a>
                     </li>
                 </ul>
+                
+                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">Logar</a>
+                    </li>
+                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -65,7 +77,9 @@
         <header class="jumbotron hero-spacer">
             <h1>Olá!</h1>
             <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer agora?</p>
-            <p><a class="btn btn-primary btn-large" onclick="createEditor();">Criar novo texto</a>
+            <p>
+            	<a class="btn btn-primary btn-large" onclick="createEditor();">Criar novo texto</a>
+            	<a class="btn btn-primary btn-large" onclick="removeEditor();">Cancelar</a>
             </p>
             
             <!-- This div will hold the editor. -->
@@ -79,7 +93,7 @@
                 </div>
             </div>
             
-            <!-- <script>
+            <script>
 
                 var editor, html = '';
 
@@ -106,7 +120,7 @@
                     editor = null;
                 }
 
-            </script> -->
+            </script>
         </header>
 
         <hr>
