@@ -1,18 +1,21 @@
-package org.springframework.samples.service.service;
+package com.unisinos.devweb.backend;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class FileManager {
+public class Gerenciador {
 
-	private static FileManager service;
+	private static Gerenciador service;
 	private File appDir;
 	private File resDir;
 	
-	private FileManager() { }
+	private Gerenciador() { }
 	
-	public static FileManager getService() {
+	public static Gerenciador getService() {
 		if (service == null)
-			service = new FileManager();
+			service = new Gerenciador();
 		
 		return service;
 	}
@@ -70,11 +73,30 @@ public class FileManager {
 		System.out.println("Last Modified: \t\t" + resDir.lastModified());
 	}
 	
-	public String getFileCount() {
-		return String.valueOf(resDir.listFiles().length);
+	public int getFileCount() {
+		System.out.println("Contando arquivos..." + resDir.listFiles().length);
+		return resDir.listFiles().length;
 	}
 	
 	public File[] getFiles() {
 		return resDir.listFiles();
+	}
+	
+	public String getConteudo(String path) {
+		StringBuilder sb = new StringBuilder();
+		String line;
+		
+		try {
+			BufferedReader bf = new BufferedReader(new FileReader(path));
+			
+			while( ( line = bf.readLine() ) != null ) {
+				sb.append( line );
+		    }
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return sb.toString();
 	}
 }

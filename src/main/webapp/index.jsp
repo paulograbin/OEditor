@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<%@ page import="org.springframework.samples.service.service.FileManager"%>
+<%@ page import="com.unisinos.devweb.backend.Gerenciador"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,6 +8,11 @@
 
 <html>
 <head>
+
+    <%
+    	Gerenciador g = Gerenciador.getService();
+        g.init(request.getRealPath(""));
+    %>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,13 +28,84 @@
     <!-- Custom CSS -->
     <link href="<c:url value="/bootstrap/css/heroic-features.css"/>" rel="stylesheet" />
     
+    <script>
+    
+        // Pega o conteúdo do editor
+        function getContents() {
+            // Get the editor instance that you want to interact with.
+            var editor = CKEDITOR.instances.editor1;
+
+            // Get editor contents
+            // http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData
+            
+            alert(editor.getData());
+        }
+        
+     // Seta conteúdo no editor
+        function SetContents() {
+        	// Get the editor instance that we want to interact with.
+        	var editor = CKEDITOR.instances.editor1;
+        	var value = document.getElementById( 'htmlArea' ).value;
+
+        	// Set editor contents (replace current contents).
+        	// http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData
+        	editor.setData( value );
+        }
+        
+        var editor, html = '';
+
+        // Exibe o editor
+        function createEditor() {
+            if ( editor )
+                return;
+
+            // Create a new editor inside the <div id="editor">, setting its value to html
+            var config = {};
+            editor = CKEDITOR.appendTo( 'editor', config, html );
+                    
+            // Cria botão salvar abaixo do editor
+            document.getElementById( 'buttonSave' ).innerHTML = '<br><a class="btn btn-primary" onclick="getContents()">Salvar!</a>';
+        }
+
+        // Esconde o editor
+        function removeEditor() {
+            if ( !editor )
+                return;
+
+            // Retrieve the editor contents. In an Ajax application, this data would be
+            // sent to the server or used in any other way.
+            document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
+            document.getElementById( 'contents' ).style.display = '';
+
+            // Destroy the editor.
+            editor.destroy();
+            editor = null;
+        }
+        
+        // Alerta
+        function scriptSalva() {
+            alert('Alertou');
+        }
+        
+        // Verifica se browser suporta localStorage
+        function testLocalStorage() {
+            // Test for checking if local storage is available.
+            if(typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                 return true;
+                 alert('Browser suporta localStorage.');
+            } else {
+                // Sorry! No Web Storage support..
+                 return false;
+                 alert('Browser NÃO suporta localStorage.');
+            }
+        }
+        
+    </script>
+    
 </head>
 <body>
-    
-    <%
-        	FileManager s = FileManager.getService();
-            s.init(request.getRealPath(""));
-    %>
+
     
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -76,73 +152,27 @@
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer">
             <h1>Olá!</h1>
+            
             <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer agora?</p>
             <p>
             	<a class="btn btn-primary btn-large" onclick="createEditor();">Criar novo texto</a>
-            	<a class="btn btn-primary btn-large" onclick="removeEditor();">Cancelar</a>
+            	<a class="btn btn-primary btn-large" onclick="getCount();">Cancelar</a>
+            	<!-- <a class="btn btn-primary btn-large" onclick="removeEditor();">Cancelar</a> -->
             </p>
             
             <!-- This div will hold the editor. -->
             <div id="editor"></div>
             <div id="contents" style="display: none">
-                <p>
-                    Edited Contents:
-                </p>
+                <p> Edited Contents: </p>
+                
                 <!-- This div will be used to display the editor contents. -->
-                <div id="editorcontents">
-                </div>
+                <div id="editorcontents"></div>
             </div>
             
-            <script>
-
-                var editor, html = '';
-
-                function createEditor() {
-                    if ( editor )
-                        return;
-
-                    // Create a new editor inside the <div id="editor">, setting its value to html
-                    var config = {};
-                    editor = CKEDITOR.appendTo( 'editor', config, html );
-                }
-
-                function removeEditor() {
-                    if ( !editor )
-                        return;
-
-                    // Retrieve the editor contents. In an Ajax application, this data would be
-                    // sent to the server or used in any other way.
-                    document.getElementById( 'editorcontents' ).innerHTML = html = editor.getData();
-                    document.getElementById( 'contents' ).style.display = '';
-
-                    // Destroy the editor.
-                    editor.destroy();
-                    editor = null;
-                }
-
-            </script>
+            <div id="buttonSave"></div>
+            
         </header>
 
-        <hr>
-        
-       
-        <!-- <script type="text/javascript">
-            function scriptSalva() {
-                alert('Alertou');
-        }
-        </script>
-            
-        <script>
-            // Test for checking if local storage is available.
-            if(typeof(Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                 alert('Browser suporta localStorage.');
-            } else {
-                // Sorry! No Web Storage support..
-                 alert('Browser NÃO suporta localStorage.');
-            }
-        </script> -->
-        
         <!-- Title -->
         <div class="row">
             <div class="col-lg-12">
