@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Gerenciador {
 
@@ -11,9 +12,9 @@ public class Gerenciador {
 	private File appDir;
 	private File resDir;
 	
-	private Gerenciador() { }
+	public Gerenciador() { }
 	
-	public static Gerenciador getService() {
+	public static Gerenciador getGerenciador() {
 		if (service == null)
 			service = new Gerenciador();
 		
@@ -32,9 +33,9 @@ public class Gerenciador {
 	private void verificaExistenciaDiretorio() {
 		System.out.println("Verificando se diretório existe...");
 		
-		if (resDir.isDirectory()) {
+		if (resDir.isDirectory() && resDir.exists()) {
 			System.out.println("Existe!");
-			getResDirInfo();
+//			getResDirInfo();
 		} else {
 			System.out.println("Não existe, criando...");
 			criaDiretorioRes();
@@ -78,19 +79,37 @@ public class Gerenciador {
 		return resDir.listFiles().length;
 	}
 	
-	public File[] getFiles() {
-		return resDir.listFiles();
+	public ArrayList<Texto> getTextos() {
+		ArrayList<Texto> textos = new ArrayList<Texto>();
+		
+		for(File f : getFiles()) {
+			if (f.isFile())
+				textos.add(new Texto(1, getConteudoFromFile(f.getAbsolutePath())));
+		}
+		
+		return textos;
 	}
 	
-	public String getConteudo(String path) {
+	private File[] getFiles() {
+		File[] files = resDir.listFiles();
+		
+//		System.out.println("Encontramos " + files.length + " arquivos...");
+//		for(int i = 0; i < files.length; i++) {
+//			System.out.println(files[i].getAbsolutePath());
+//		}
+		
+		return files;
+	}
+	
+	private String getConteudoFromFile(String path) {
 		StringBuilder sb = new StringBuilder();
 		String line;
 		
 		try {
 			BufferedReader bf = new BufferedReader(new FileReader(path));
 			
-			while( ( line = bf.readLine() ) != null ) {
-				sb.append( line );
+			while((line = bf.readLine()) != null) {
+				sb.append(line);
 		    }
 			
 		} catch (IOException e) {

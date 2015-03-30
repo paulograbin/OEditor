@@ -10,8 +10,8 @@
 <head>
 
     <%
-    	Gerenciador g = Gerenciador.getService();
-        g.init(request.getRealPath(""));
+    	Gerenciador g = Gerenciador.getGerenciador();
+            g.init(request.getRealPath(""));
     %>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,7 +30,9 @@
     
     <script>
     
-        // Pega o conteúdo do editor
+        var count = 0;
+        
+        // Retorna o conteúdo do editor
         function getContents() {
             // Get the editor instance that you want to interact with.
             var editor = CKEDITOR.instances.editor1;
@@ -38,7 +40,46 @@
             // Get editor contents
             // http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData
             
-            alert(editor.getData());
+            return editor.getData();
+        }
+        
+        // Adiciona div contendo o texto salvo
+        function adicionaTextoSalvo() {
+            count = count + 1;
+            console.log("adicionando texto na div " + count);
+            
+            var texto = getContents();
+            var nome = "teste" + count;
+            var proximoNome = "teste" + (count+1);
+            console.log(nome);
+            
+            var div = document.getElementById(nome);
+            
+            var divCodigo = '<div class="col-md-3 col-sm-6 hero-feature id=' + nome + '">' +
+                                '<div class="thumbnail">' +
+                                    '<div class="caption">' +
+                                        '<h3>Feature Label</h3>' +
+                                        '<p>'+ texto + '</p>' +
+                                        '<p>' +
+                                            '<a href="#" class="btn btn-primary">Abrir</a>' +
+                                            '<a href="#" onclick="apagaDiv(' + nome + ')" class="btn btn-default">Apagar</a></p>' +
+                                    '</div>' + '</div>' + ' </div>' + 
+                                    
+                                    '<div id="' + proximoNome + '"></div>';
+            
+            console.log("Código da div: " + divCodigo);
+            
+            div.innerHTML = divCodigo;
+            
+            removeEditor();
+        }
+        
+        function apagaDiv(int) {
+            console.log("apagando div: " + int);
+            
+            var div = document.getElementById(int);
+            
+            div.parentElement.innerHTML = '';
         }
         
      // Seta conteúdo no editor
@@ -64,7 +105,7 @@
             editor = CKEDITOR.appendTo( 'editor', config, html );
                     
             // Cria botão salvar abaixo do editor
-            document.getElementById( 'buttonSave' ).innerHTML = '<br><a class="btn btn-primary" onclick="getContents()">Salvar!</a>';
+            document.getElementById( 'buttonSave' ).innerHTML = '<br><a class="btn btn-primary" onclick="adicionaTextoSalvo()">Salvar!</a>';
         }
 
         // Esconde o editor
@@ -86,21 +127,7 @@
         function scriptSalva() {
             alert('Alertou');
         }
-        
-        // Verifica se browser suporta localStorage
-        function testLocalStorage() {
-            // Test for checking if local storage is available.
-            if(typeof(Storage) !== "undefined") {
-                // Code for localStorage/sessionStorage.
-                 return true;
-                 alert('Browser suporta localStorage.');
-            } else {
-                // Sorry! No Web Storage support..
-                 return false;
-                 alert('Browser NÃO suporta localStorage.');
-            }
-        }
-        
+                
     </script>
     
 </head>
@@ -156,8 +183,8 @@
             <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer agora?</p>
             <p>
             	<a class="btn btn-primary btn-large" onclick="createEditor();">Criar novo texto</a>
-            	<a class="btn btn-primary btn-large" onclick="getCount();">Cancelar</a>
-            	<!-- <a class="btn btn-primary btn-large" onclick="removeEditor();">Cancelar</a> -->
+            	<!-- <a class="btn btn-primary btn-large" onclick="getCount();">Cancelar</a> -->
+            	<a class="btn btn-primary btn-large" onclick="removeEditor();">Cancelar</a>
             </p>
             
             <!-- This div will hold the editor. -->
@@ -183,7 +210,13 @@
 
         <!-- Page Features -->
         <div class="row text-center">
+            
+            <div id="teste1"></div>
+            
+            
+            
 
+<!--
             <div class="col-md-3 col-sm-6 hero-feature">
                 <div class="thumbnail">
                     <div class="caption">
@@ -231,6 +264,7 @@
                     </div>
                 </div>
             </div>
+-->
 
         </div>
         <!-- /.row -->
@@ -239,7 +273,7 @@
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Desenvolvido por Alexandre, Matheus, Paulo e Thiago. &copy; Your Website 2014</p>
+                    <p>Desenvolvido por Alexandre, Matheus, Paulo e Thiago. &copy; Editor de Texto 2015</p>
                 </div>
             </div>
         </footer>
