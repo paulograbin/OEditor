@@ -20,5 +20,7 @@
 	
 	<mvc:resources mapping="/bootstrap/**" location="/bootstrap/" />
 	<mvc:resources mapping="/ckeditor/**" location="/ckeditor/" />
+	<mvc:resources mapping="/js/**" location="/js/" />
+	
 
 </beans>
