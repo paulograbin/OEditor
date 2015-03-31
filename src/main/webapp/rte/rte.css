@@ -1,0 +1,622 @@
+.rteImage {
+	background: #D3D3D3;
+	border: 1px solid #D3D3D3;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.rteImageRaised, .rteImage:hover {
+	background: #D3D3D3;
+	border: 1px outset;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.rteImageLowered, .rteImage:active {
+	background: #D3D3D3;
+	border: 1px inset;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.rteVertSep {
+	margin: 0 4px 0 4px;
+}
+
+.rteBack {
+	background: #D3D3D3;
+	border: 1px outset;
+	letter-spacing: 0;
+	padding: 2px;
+}
+
+.rteBack tbody tr td, .rteBack tr td {
+	background: #D3D3D3;
+	padding: 0;
+}
+
+.rteDiv {
+	display: block;
+	position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+    top:0;
+    left:0;
+    margin:0;
+    padding:0;
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	color:#000000;
+	font-size:13px;
+	background:url(Img/Layout/bg_header.jpg);
+	background-repeat:repeat-x;
+    width:100%;
+}
+
+body, body_aux, h1, h2, h3, h4, h5, h6, form, dl, ul, ol, dt, dd, p, address {
+margin:0px;
+padding:0px;
+}
+
+a {
+	color:#006600;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+a:hover {
+	color:#000000;
+}
+
+alt {
+background-color:#CCCC00;
+}
+
+h1{
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:30px;
+	padding-left:10px;
+	color:#000000;
+}
+
+h2 {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:24px;
+	padding-bottom:10px;
+	color:#006600;
+}
+
+h3 {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:15px;
+	padding-top:5px;
+	padding-bottom:10px;
+	color:#006600;
+}
+
+h4 {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	padding-top:0px;
+	padding-bottom:5px;
+	color:#006600;
+}
+
+h5 {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	padding-left:10px;
+	padding-bottom:3px;
+	color:#000000;
+}
+
+h6 {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	padding-top:5px;
+	padding-left:10px;
+	padding-bottom:3px;
+	color:#000000;
+}
+
+hr {
+	color:#006600;
+	border-style:dashed;
+}
+
+.data {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	font-weight:bold;
+	padding-top:15px;
+	padding-bottom:0px;
+	color:#006600;
+}
+
+.titulo_noticias {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	color:#000000;
+}
+
+.titulo_noticias:hover {
+	color:#006600;
+}
+
+#titulo_galerias {
+	margin-left:10px;
+	width:755px;
+}
+
+#titulo_galerias h2 {
+padding-bottom:5px;
+}
+
+.titulo_float {
+	float:left;
+}
+
+.p_galerias {
+width:500px;
+}
+
+.p_menu_aux {
+	text-align:right;
+}
+
+.p_menu_aux a {
+	font-weight:bold;
+}
+
+.loading {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	font-weight:bold;
+	color:#006600;
+}
+
+.hide {
+	left:-1000px;
+	position:absolute;
+}
+
+p {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:13px;
+	padding-bottom:15px;
+	color:#000000;
+}
+
+.p_destaque {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	padding-top:10px;
+	padding-bottom:20px;
+	font-size:15px;
+	color:#000000;
+}
+
+.moldura {
+	float:left;
+	padding:6px;
+	margin-bottom:10px;
+	background-color:#F9F3E6;
+}
+
+.foto_floatleft {
+	float:left;
+	margin-top:8px;
+	margin-right:8px;
+	position:relative;
+}
+
+.img_noticia {
+	float:left;
+	margin-right:14px;
+	padding:6px;
+	background-color:#F9F3E6;
+	position:relative;
+}
+
+#noticia h3 {
+padding-bottom:10px;
+color:#000000;
+}
+
+#eventos h3 {
+color:#000000;
+padding-bottom:5px;
+}
+
+.foto_bloco {
+width:100%;
+}
+
+.img_link {
+	border:none;
+}
+
+.icon {
+	float:left;
+	position:relative;
+}
+
+#geral {
+	width:100%;
+	height:100%;
+	margin:0px auto;
+	_margin:-14px auto;
+	position:relative;
+	/*padding-top:100%; /* este padding-top causa o scroll no firefox */
+}
+
+#header {
+	width:775px;
+	height:176px;
+	margin-bottom:25px;
+}
+
+
+.chromestyle{
+top:138px;
+_top:151px;
+left:11px;
+font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+font-size:11px;
+font-weight:bold;
+color:#006600;
+position:relative;
+}
+
+.chromestyle:after{ /*Add margin between menu and rest of content in Firefox*/
+content:"."; 
+
+display:block; 
+height:0; 
+clear:both; 
+visibility:hidden;
+}
+
+.chromestyle ul{
+width:100%;
+/*background: url(chromebg.gif) center center repeat-x; THEME CHANGE HERE*/
+padding:5px 0;
+margin:0;
+text-align:left; /*set value to "left", "center", or "right"*/
+}
+
+.chromestyle ul li{
+display:inline;
+}
+
+.chromestyle ul li a{
+color:#006600;
+padding:3px 0px;
+_padding:17px 0px;
+margin:0;
+text-decoration:none;
+}
+
+
+.chromestyle ul li a:hover{
+color:#000000;
+}
+
+.dropmenudiv{
+position:absolute;
+top:0;
+font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+font-size:11px;
+font-weight:bold;
+color:#006600;
+line-height:19px;
+z-index:1000;
+background-image:url(Img/downimage.gif);
+width:150px;
+visibility: hidden;
+filter: progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=135,strength=4); /*Add Shadow in IE. Remove if desired*/
+}
+
+.dropmenudiv a{
+width:auto;
+display:block;
+text-indent:4px;
+padding:2px 0;
+text-decoration:none;
+color:#006600;
+}
+
+* html .dropmenudiv a{ /*IE only hack*/
+width:100%;
+}
+
+.dropmenudiv a:hover{ /*THEME CHANGE HERE*/
+color:#000000;
+}
+
+.posiciona_bandeira {
+top:3px;
+position:relative;
+border:none;
+}
+
+#logo {
+	top:46px;
+	_top:60px;
+	left:20px;
+	width:194px;
+	height:82px;
+	position:absolute;
+}
+
+#conteudo {
+	top:0px;
+	width:100%;
+	background-color:#FFFFFF;
+	position:relative;
+}
+
+#conteudo_1_1 {
+	width:335px;
+	margin-left:5px;
+	margin-bottom:15px;
+	padding:10px;
+	float:left;
+	border-top:1px #F3E8CF solid;
+	border-bottom:1px #F3E8CF solid;
+	border-right:1px #F3E8CF solid;
+	border-left:1px #F3E8CF solid;
+	position:relative;
+}
+
+#conteudo_1_2 {
+	width:190px;
+	margin-left:10px;
+	margin-bottom:15px;	
+	padding:10px;
+	float:left;
+	background-color:#FDFBF6;
+	position:relative;
+}
+
+#conteudo #seletor, #conteudo #foto {
+	float:left;
+}
+
+#seletor {
+	width:198px;
+	margin-left:5px;
+	margin-bottom:15px;	
+	padding:10px;
+	background-color:#FDFBF6;
+	position:relative;
+}
+
+.skip_seletor {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	padding-top:5px;
+	padding-bottom:5px;
+	color:#000000;
+	text-align:center;
+}
+
+.skip_seletor a {
+	font-weight:bold;
+}
+
+.thumb {
+	border-top:2px #F7EBDE solid;
+	border-bottom:2px #F7EBDE solid;
+	border-right:2px #F7EBDE solid;
+	border-left:2px #F7EBDE solid;
+}
+
+.thumb_2 {
+	border-top:4px #F7EBDE solid;
+	border-bottom:4px #F7EBDE solid;
+	border-right:4px #F7EBDE solid;
+	border-left:4px #F7EBDE solid;
+	margin:4px;
+}
+
+#foto {
+	text-align:center;
+	width:510px;
+	left:20px;
+	position:relative;
+}
+
+#foto p {
+	padding-top:5px;
+}
+
+.foto {
+	border-top:5px #FFF3E7 solid;
+	border-bottom:5px #FFF3E7 solid;
+	border-right:5px #FFF3E7 solid;
+	border-left:5px #FFF3E7 solid;
+}
+
+.inside_1_3 {
+	padding:5px;
+	border-top:2px #006600 dotted;
+	border-bottom:2px #006600 dotted;
+	border-right:2px #006600 dotted;
+	border-left:2px #006600 dotted;
+	background-color:#FFFFFF;
+}
+
+.inside_1_2 {
+	padding:10px;
+	border-top:2px #006600 dotted;
+	border-bottom:2px #006600 dotted;
+	border-right:2px #006600 dotted;
+	border-left:2px #006600 dotted;
+	background-color:#FFFFFF;
+}
+
+.inside_1_2 p {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	padding-top:0px;
+	padding-bottom:5px;
+	color:#000000;
+}
+	
+.inside_1_2 h3 {	
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:15px;
+	padding-top:5px;
+	padding-bottom:5px;
+	color:#006600;
+}	
+
+#conteudo_1_3 {
+	width:170px;
+	margin-left:10px;
+	margin-bottom:15px;	
+	float:left;
+	position:relative;
+}
+
+#conteudo_1_3 a {
+	color:#000000;
+}
+
+#conteudo_1_3 a:hover {
+	color:#006600;
+}
+
+#conteudo_1_3 hr {
+	color:#000000;
+}
+
+#conteudo_1_3 h3 {	
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:15px;
+	padding-top:5px;
+	color:#000000;
+}
+
+#conteudo_1_4 {
+	width:525px;
+	margin-left:5px;
+	margin-bottom:15px;
+	padding:10px;
+	float:left;
+	border-top:1px #F3E8CF solid;
+	border-bottom:1px #F3E8CF solid;
+	border-right:1px #F3E8CF solid;
+	border-left:1px #F3E8CF solid;
+	position:relative;
+}
+
+#conteudo_login {
+	font-family:"Trebuchet MS", "Lucida Grande", "Bitstream Vera Sans", Arial, Helvetica, "sans-serif";
+	font-size:12px;
+	color:#000000;
+	text-align:right;
+	position:relative;
+}
+
+.esqueci {
+	text-decoration:underline;
+	color:#000000;
+}
+
+.esqueci:hover {
+	color:#006600;
+}
+	
+#coluna_dupla {
+	width:555px;
+	background-image:url(Img/bg_coluna_dupla.gif);
+	background-repeat:no-repeat;
+	position:relative;
+	border:0px;
+	/* Corrected for IE6/Moz
+	voice-family: "\"}\"";
+	voice-family:inherit;
+	width:508px; */
+}
+
+.editDefault{ 
+	font-family:Verdana,Helvetica,Arial;
+	font-size:9px;
+	background-color:#F6F6F6;
+	border-top:1px #CCCCCC solid;
+	border-bottom:1px #CCCCCC solid;
+	border-right:1px #CCCCCC solid;
+	border-left:1px #CCCCCC solid;
+}
+
+.btDefault{ 
+	position:relative;
+	cursor:pointer;
+	font-family:Verdana,Helvetica,Arial;
+	font-size:10px;
+	color:#000000;
+	background-color:#F6F6F6;
+	border-top:1px #CCCCCC solid;
+	border-bottom:1px #CCCCCC solid;
+	border-right:1px #CCCCCC solid;
+	border-left:1px #CCCCCC solid;
+	margin-top:1px;
+	padding:0px;
+}
+
+address {
+	left:0px;
+	clear:both;
+	margin-top:10px;
+	text-decoration:none;
+	font:9px Verdana, Arial, 'Sans-Serif';
+	color:#666666;
+	padding:0px 0px 0px 0px;
+	width:100%;
+	height:100px;
+	background-image:url(Img/Layout/bg_bottom.jpg);
+	background-repeat:repeat-x;
+	position:relative;
+}
+
+.tapaFuro {
+height:70px;
+background-image:url(Img/Layout/tapa_furo.jpg);
+background-repeat:repeat-x;
+background-color:#21A221;
+}
+
+

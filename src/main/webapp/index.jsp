@@ -19,7 +19,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>O Editor de Texto...</title>
+    <title>O Editor de Texto</title>
 
     <!-- CKEditor js -->
     <script src="ckeditor/ckeditor.js"></script>
