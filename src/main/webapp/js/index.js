@@ -1,97 +1,62 @@
-var count = 0;
+var app = angular.module('EditorTexto', ['ngSanitize']);
+app.controller('EditorTextoCtrl', function($scope) {
+	var count = 0;
+	var editor, html = '';
+	$scope.botaoSalvarHabilitado = false;
+	
+	var getConteudo = function () {
+		if(!editor) return;
+		// Get editor contents
+		return editor.getData();
+	};
+	
+	$scope.listaTextos = [];
+	$scope.adicionarTextoSalvo = function () {
+		count = count + 1;
+		
+		var texto = {};
+		texto.conteudo = getConteudo();
+		texto.nome = "teste" + count;
+		$scope.listaTextos.push(texto);
+		$scope.removerEditor();
+	};
+	
+	// Exibe o editor
+	$scope.criarEditor = function () {
+		if (editor)	return;
 
-// Retorna o conteúdo do editor
-function getContents() {
-	// Get the editor instance that you want to interact with.
-	var editor = CKEDITOR.instances.editor1;
+		// Create a new editor inside the <div id="editor">, setting its value to html
+		var config = {};
+		editor = CKEDITOR.appendTo('editor', config, html);
+		$scope.botaoSalvarHabilitado = true;
+	};
+	
+	$scope.removerEditor = function () {
+		if (!editor)
+			return;
+		
+		document.getElementById('editorcontents').innerHTML = html = editor.getData();
+		document.getElementById('contents').style.display = '';
 
-	// Get editor contents
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-getData
+		// Destroy the editor.
+		editor.destroy(true);
+		editor = null;
+		$scope.botaoSalvarHabilitado = false;
+	};
+	
+	$scope.apagarTexto = function (index) {
+		$scope.listaTextos.splice(index, 1);
+	};
+	
+	// Seta conteúdo no editor
+	function SetContents() {
+		// Get the editor instance that we want to interact with.
+		var editor = CKEDITOR.instances.editor1;
+		var value = document.getElementById('htmlArea').value;
 
-	return editor.getData();
-}
+		// Set editor contents (replace current contents).
+		// http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData
+		editor.setData(value);
+	}
 
-// Adiciona div contendo o texto salvo
-function adicionaTextoSalvo() {
-	count = count + 1;
-	console.log("adicionando texto na div " + count);
-
-	var texto = getContents();
-	var nome = "teste" + count;
-	var proximoNome = "teste" + (count + 1);
-	console.log(nome);
-
-	var div = document.getElementById(nome);
-
-	var divCodigo = '<div class="col-md-3 col-sm-6 hero-feature id=' + nome + '">' + 
-						'<div class="thumbnail">' + '<div class="caption">'
-							+ '<h3>Feature Label</h3>' + '<p>' + texto + '</p>' + '<p>'
-								+ '<a href="#" class="btn btn-primary">Abrir</a>'
-								+ '<a href="#" onclick="apagaDiv(' + nome
-							+ ')" class="btn btn-default">Apagar</a></p>' + '</div>' + '</div>'
-							+ ' </div>' +
-
-							'<div id="' + proximoNome + '"></div>';
-
-	console.log("Código da div: " + divCodigo);
-
-	div.innerHTML = divCodigo;
-
-	removeEditor();
-}
-
-function apagaDiv(int) {
-	console.log("apagando div: " + int);
-
-	var div = document.getElementById(int);
-
-	div.parentElement.innerHTML = '';
-}
-
-// Seta conteúdo no editor
-function SetContents() {
-	// Get the editor instance that we want to interact with.
-	var editor = CKEDITOR.instances.editor1;
-	var value = document.getElementById('htmlArea').value;
-
-	// Set editor contents (replace current contents).
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData
-	editor.setData(value);
-}
-
-var editor, html = '';
-
-// Exibe o editor
-function createEditor() {
-	if (editor)
-		return;
-
-	// Create a new editor inside the <div id="editor">, setting its value to
-	// html
-	var config = {};
-	editor = CKEDITOR.appendTo('editor', config, html);
-
-	// Cria botão salvar abaixo do editor
-	document.getElementById('buttonSave').innerHTML = '<br><a class="btn btn-primary" onclick="adicionaTextoSalvo()">Salvar!</a>';
-}
-
-// Esconde o editor
-function removeEditor() {
-	if (!editor)
-		return;
-
-	// Retrieve the editor contents. In an Ajax application, this data would be
-	// sent to the server or used in any other way.
-	document.getElementById('editorcontents').innerHTML = html = editor
-			.getData();
-	document.getElementById('contents').style.display = '';
-
-	// Destroy the editor.
-	editor.destroy();
-	editor = null;
-}
-
-// Alerta
-function scriptSalva() {
-	alert('Alertou');
-}
+});
