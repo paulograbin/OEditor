@@ -21,6 +21,19 @@
 	
 	<title>O Editor de Texto</title>
 	
+	<script>
+		function Focus() {
+		CKEDITOR.instances.editor1.focus();
+		}
+		
+		function onFocus() {
+			document.getElementById( 'eMessage' ).innerHTML = '<b>' + this.name + ' is focused </b>';
+		}
+		
+		function onBlur() {
+			document.getElementById( 'eMessage' ).innerHTML = this.name + ' lost focus';
+		}
+	</script>
 	
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular.min.js.map"></script>
@@ -76,12 +89,31 @@
 		<div class="container" ng-app="EditorTexto" ng-controller="EditorTextoCtrl">
 			<!-- Jumbotron Header -->
 			<header class="jumbotron hero-spacer">
-				<h1>Olá!</h1>
+				<h1>Olá, digite seu texto abaixo:</h1>
 				
-				<p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer	agora?</p>
+				<!-- <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer	agora?</p> -->
+				<textarea cols="100" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+
+		<script>
+			// Replace the <textarea id="editor1"> with an CKEditor instance.
+			CKEDITOR.replace( 'editor1', {
+				on: {
+					focus: onFocus,
+					blur: onBlur,
+
+					// Check for availability of corresponding plugins.
+					pluginsLoaded: function( evt ) {
+						var doc = CKEDITOR.document, ed = evt.editor;
+						if ( !ed.getCommand( 'bold' ) )
+							doc.getById( 'exec-bold' ).hide();
+						if ( !ed.getCommand( 'link' ) )
+							doc.getById( 'exec-link' ).hide();
+					}
+				}
+			});
+		</script>
 				<p>
-					<a class="btn btn-primary btn-large" ng-click="criarEditor()">Criar novo texto</a>
-					<a class="btn btn-primary btn-large" ng-click="removerEditor();">Cancelar</a>
+					<a class="btn btn-primary btn-large" ng-click="adicionarTextoSalvo()">Salvar!</a>
 				</p>
 	
 				<!-- This div will hold the editor. -->
@@ -95,7 +127,6 @@
 	
 				<div ng-if="botaoSalvarHabilitado">
 					<br/>
-					<a class="btn btn-primary" ng-click="adicionarTextoSalvo()">Salvar!</a>
 				 </div>
 	
 			</header>
@@ -117,7 +148,7 @@
 								<h3>{{entidade.nome}}</h3>
 								<p ng-bind-html="entidade.conteudo"></p>
 								<p>
-									<a href="#" class="btn btn-primary">Abrir</a>
+									<a href="#" class="btn btn-primary" ng-click="abrirTexto($index)">Abrir</a>
 									<a href="#" class="btn btn-default" ng-click="apagarTexto($index)">Apagar</a>
 								</p>
 							</div>
@@ -144,6 +175,8 @@
 	
 		<!-- Bootstrap Core JavaScript -->
 		<script src="bootstrap/js/bootstrap.min.js"></script>
-	
+		
+		<p id="eMessage" style="visibility: hidden;">
+		</p>	
 	</body>
 </html>

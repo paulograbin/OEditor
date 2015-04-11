@@ -18,7 +18,7 @@ app.controller('EditorTextoCtrl', function($scope) {
 		texto.conteudo = getConteudo();
 		texto.nome = "teste" + count;
 		$scope.listaTextos.push(texto);
-		$scope.removerEditor();
+//		$scope.removerEditor();
 	};
 	
 	// Exibe o editor
@@ -31,17 +31,22 @@ app.controller('EditorTextoCtrl', function($scope) {
 		$scope.botaoSalvarHabilitado = true;
 	};
 	
-	$scope.removerEditor = function () {
-		if (!editor)
-			return;
-		
-		document.getElementById('editorcontents').innerHTML = html = editor.getData();
-		document.getElementById('contents').style.display = '';
-
-		// Destroy the editor.
-		editor.destroy(true);
-		editor = null;
-		$scope.botaoSalvarHabilitado = false;
+//	$scope.removerEditor = function () {
+//		if (!editor)
+//			return;
+//		
+//		document.getElementById('editorcontents').innerHTML = html = editor.getData();
+//		document.getElementById('contents').style.display = '';
+//
+//		// Destroy the editor.
+//		editor.destroy(true);
+//		editor = null;
+//		$scope.botaoSalvarHabilitado = false;
+//	};
+	
+	$scope.abrirTexto = function (index) {
+		var textValue = $scope.listaTextos[index];
+		SetContents(textValue);
 	};
 	
 	$scope.apagarTexto = function (index) {
@@ -49,14 +54,14 @@ app.controller('EditorTextoCtrl', function($scope) {
 	};
 	
 	// Seta conteúdo no editor
-	function SetContents() {
+	function SetContents(text) {
 		// Get the editor instance that we want to interact with.
 		var editor = CKEDITOR.instances.editor1;
-		var value = document.getElementById('htmlArea').value;
+//		var value = document.getElementById('htmlArea').value;
 
 		// Set editor contents (replace current contents).
 		// http://docs.ckeditor.com/#!/api/CKEDITOR.editor-method-setData
-		editor.setData(value);
+		editor.setData(text);
 	}
 
 });
