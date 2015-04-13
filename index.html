@@ -1,18 +1,6 @@
 <!DOCTYPE html>
-
-<%@ page import="com.unisinos.devweb.backend.Gerenciador"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <html>
 	<head>
-	
-	<%
-		Gerenciador g = Gerenciador.getGerenciador();
-		g.init(request.getRealPath(""));
-	%>
 	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,10 +33,10 @@
 	<script src="ckeditor/ckeditor.js"></script>
 	
 	<!-- Bootstrap Core CSS -->
-	<link href="<c:url value="/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet" />
+	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<!-- Custom CSS -->
-	<link href="<c:url value="/bootstrap/css/heroic-features.css"/>" rel="stylesheet" />
-	
+	<link href="bootstrap/css/heroic-features.css" rel="stylesheet" />
+
 	<script src="js/index.js"></script>
 	
 	</head>
