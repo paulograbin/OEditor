@@ -9,20 +9,6 @@
 	
 	<title>O Editor de Texto</title>
 	
-	<script>
-		function Focus() {
-		CKEDITOR.instances.editor1.focus();
-		}
-		
-		function onFocus() {
-			document.getElementById( 'eMessage' ).innerHTML = '<b>' + this.name + ' is focused </b>';
-		}
-		
-		function onBlur() {
-			document.getElementById( 'eMessage' ).innerHTML = this.name + ' lost focus';
-		}
-	</script>
-	
 	<script src="js/angular.min.js"></script>
 	<script src="js/angular.min.js.map"></script>
 	
@@ -38,7 +24,7 @@
 	<link href="bootstrap/css/heroic-features.css" rel="stylesheet" />
 
 	<script src="js/index.js"></script>
-	
+        
 	</head>
 	<body>
 	
@@ -80,26 +66,16 @@
 				<h1>Olá, digite seu texto abaixo:</h1>
 				
 				<!-- <p>Seja bem vindo ao O Editor de Texto. O que você deseja fazer	agora?</p> -->
-				<textarea cols="100" id="editor1" name="editor1" rows="10">&lt;p&gt;This is some &lt;strong&gt;sample text&lt;/strong&gt;. You are using &lt;a href="http://ckeditor.com/"&gt;CKEditor&lt;/a&gt;.&lt;/p&gt;</textarea>
+				<textarea name="editor1" id="editor1" rows="10" cols="80">
+                    This is my textarea to be replaced with CKEditor.
+                </textarea>
 
-		<script>
-			// Replace the <textarea id="editor1"> with an CKEditor instance.
-			CKEDITOR.replace( 'editor1', {
-				on: {
-					focus: onFocus,
-					blur: onBlur,
-
-					// Check for availability of corresponding plugins.
-					pluginsLoaded: function( evt ) {
-						var doc = CKEDITOR.document, ed = evt.editor;
-						if ( !ed.getCommand( 'bold' ) )
-							doc.getById( 'exec-bold' ).hide();
-						if ( !ed.getCommand( 'link' ) )
-							doc.getById( 'exec-link' ).hide();
-					}
-				}
-			});
-		</script>
+                 <script>
+                    // Replace the <textarea id="editor1"> with a CKEditor
+                    // instance, using default configuration.
+                    CKEDITOR.replace( 'editor1' );
+                </script>
+		
 				<p>
 					<a class="btn btn-primary btn-large" ng-click="adicionarTextoSalvo()">Salvar!</a>
 				</p>
