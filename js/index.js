@@ -20,10 +20,11 @@ app.controller('EditorTextoCtrl', function($scope) {
 		var texto = {};
 		texto.conteudo = getConteudo();
 		texto.nome = "teste" + count;
-        
-        
 
 		$scope.listaTextos.push(texto);
+        
+        // Limpa conteudos do editor
+        clearContents();
 	};
 	
 	$scope.abrirTexto = function (index) {
@@ -36,7 +37,8 @@ app.controller('EditorTextoCtrl', function($scope) {
 		$scope.listaTextos.splice(index, 1);
 	};
     
-    $scope.clearContents = function () {
+    function clearContents() {
+        console.log("Função: clearContents");
         setContents("");
     }
 	
