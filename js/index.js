@@ -4,6 +4,8 @@ app.controller('EditorTextoCtrl', function($scope) {
 	var editor, html = '';
 	$scope.botaoSalvarHabilitado = false;
 	
+    
+    // Função que retorna o conteudo atual do editor
 	var getConteudo = function () {
 		// Get editor contents
         var editor = CKEDITOR.instances.editor1;
@@ -13,6 +15,8 @@ app.controller('EditorTextoCtrl', function($scope) {
 	};
 	
 	$scope.listaTextos = [];
+    
+    // Função que salva um novo texto
 	$scope.adicionarTextoSalvo = function () {
 		count = count + 1;
         console.log("Função: adicionarTextoSalvo no index " + count);
@@ -20,7 +24,16 @@ app.controller('EditorTextoCtrl', function($scope) {
 		var texto = {};
 		texto.conteudo = getConteudo();
 		texto.nome = "teste" + count;
-
+        
+        console.log("Tamanho da string de texto contida no editor: " + texto.conteudo.length);
+        // Testa se o conteudo do editor não é vazio
+        if(texto.conteudo.length == 0) {
+            
+            alert("Por favor, digite alguma coisa no Editor.");
+            return;
+        }
+        
+        
 		$scope.listaTextos.push(texto);
         
         // Limpa conteudos do editor
@@ -37,15 +50,18 @@ app.controller('EditorTextoCtrl', function($scope) {
 		$scope.listaTextos.splice(index, 1);
 	};
     
+    // Função que limpa conteudo do editor
     function clearContents() {
         console.log("Função: clearContents");
+        
+        // Chama a função que seta o texto passando parametro vazio
         setContents("");
     }
 	
-	// Seta conteúdo no editor
+	// Função que seta conteúdo no editor
 	function setContents(text) {
-        console.log("Função: setContents");
-        console.log("Texto settado: " + text);
+        console.log("Função: setContents, setando texto: " + text);
+        
 		// Get the editor instance that we want to interact with.
 		var editor = CKEDITOR.instances.editor1;
 
