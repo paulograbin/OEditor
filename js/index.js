@@ -3,7 +3,7 @@ app.controller('EditorTextoCtrl', function($scope) {
 	var count = 0;
 	var editor, html = '';
 	$scope.indiceTextoEdicao = null;
-	$scope.textoBotaoSalvar = 'Salvar novo texto';
+	$scope.textoBotaoSalvar = 'Salvar Novo Texto';
     
     // Função que retorna o conteudo atual do editor
 	var getConteudo = function () {
@@ -76,7 +76,7 @@ app.controller('EditorTextoCtrl', function($scope) {
         // Chama a função que seta o texto passando parametro vazio
         setContents("");
         $scope.indiceTextoEdicao = null;
-       	$scope.textoBotaoSalvar = 'Salvar novo texto!';
+       	$scope.textoBotaoSalvar = 'Salvar Novo Texto';
     }
 	
 	// Função que seta conteúdo no editor
