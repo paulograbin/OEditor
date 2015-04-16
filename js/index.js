@@ -2,52 +2,71 @@ var app = angular.module('EditorTexto', ['ngSanitize']);
 app.controller('EditorTextoCtrl', function($scope) {
 	var count = 0;
 	var editor, html = '';
-	$scope.botaoSalvarHabilitado = false;
-	
+	$scope.indiceTextoEdicao = null;
+	$scope.textoBotaoSalvar = 'Salvar novo texto';
     
     // Função que retorna o conteudo atual do editor
 	var getConteudo = function () {
 		// Get editor contents
-        var editor = CKEDITOR.instances.editor1;
-        console.log("Texto retornado: " + editor.getData());
-        
+        var editor = CKEDITOR.instances.editor1;        
 		return editor.getData();
 	};
 	
 	$scope.listaTextos = [];
-    
+ 
+  	var salvarOuEditarTexto = function () {
+  		var texto = null;
+		//Se estiver diferente de nulo, significa que é uma edição
+		if ($scope.indiceTextoEdicao) {
+			texto = $scope.listaTextos[$scope.indiceTextoEdicao];
+			texto.conteudo = getConteudo();
+			console.log("Função: adicionarTextoSalvo no index " + $scope.indiceTextoEdicao);
+	
+		//Se for nulo significa que é um novo texto		
+		}else{
+			texto = {};
+			count = count + 1;
+			texto.nome = "Texto " + count;
+			texto.conteudo = getConteudo();
+			$scope.listaTextos.push(texto);
+			console.log("Função: adicionarTextoSalvo no index " + count);	
+		}    
+  	}
+
     // Função que salva um novo texto
 	$scope.adicionarTextoSalvo = function () {
-		count = count + 1;
-        console.log("Função: adicionarTextoSalvo no index " + count);
 		
-		var texto = {};
-		texto.conteudo = getConteudo();
-		texto.nome = "teste" + count;
-        
-        console.log("Tamanho da string de texto contida no editor: " + texto.conteudo.length);
-        // Testa se o conteudo do editor não é vazio
-        if(texto.conteudo.length == 0) {
-            
+		 // Testa se o conteudo do editor não é vazio
+        if(getConteudo().length == 0) {    
             alert("Por favor, digite alguma coisa no Editor.");
             return;
         }
-        
-        
-		$scope.listaTextos.push(texto);
-        
+
+		salvarOuEditarTexto();
+        console.log("Tamanho da string de texto contida no editor: " + getConteudo().length);
+   
         // Limpa conteudos do editor
         clearContents();
 	};
-	
+
+	$scope.cancelarTexto = function () {
+        clearContents();
+	}
+
 	$scope.abrirTexto = function (index) {
         console.log("Função: abrirTexto, index: " + index+1);
-		var textValue = $scope.listaTextos[index];
-		setContents(textValue);
+		var texto = $scope.listaTextos[index];
+		if(texto){
+			setContents(texto.conteudo);
+			$scope.indiceTextoEdicao = index;
+			$scope.textoBotaoSalvar = 'Salvar ' + texto.nome;	
+		}	
+
 	};
 	
 	$scope.apagarTexto = function (index) {
 		$scope.listaTextos.splice(index, 1);
+		clearContents();
 	};
     
     // Função que limpa conteudo do editor
@@ -56,6 +75,8 @@ app.controller('EditorTextoCtrl', function($scope) {
         
         // Chama a função que seta o texto passando parametro vazio
         setContents("");
+        $scope.indiceTextoEdicao = null;
+       	$scope.textoBotaoSalvar = 'Salvar novo texto!';
     }
 	
 	// Função que seta conteúdo no editor
