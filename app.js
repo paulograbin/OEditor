@@ -6,8 +6,29 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Database
-var mongo = require('mongoskin');
-var db = mongo.db(" mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
+//var mongo = require('mongoskin');
+//var db = mongo.db(" mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
+
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database : 'editortexto'
+});
+
+connection.connect();
+
+//EXAMPLE OF QUERY ABOVE
+//
+//connection.query('SELECT * from < table name >', function(err, rows, fields) {
+//  if (!err)
+//    console.log('The solution is: ', rows);
+//  else
+//    console.log('Error while performing Query.');
+//});
+
+connection.end();
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
