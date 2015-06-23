@@ -6,32 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Database
-//var mongo = require('mongoskin');
-//var db = mongo.db(" mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
+var mongo = require('mongoskin');
+var db = mongo.db("mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
+// var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true}); 
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database : 'editortexto'
-});
-
-connection.connect();
-
-//EXAMPLE OF QUERY ABOVE
-//
-//connection.query('SELECT * from < table name >', function(err, rows, fields) {
-//  if (!err)
-//    console.log('The solution is: ', rows);
-//  else
-//    console.log('Error while performing Query.');
-//});
-
-connection.end();
-
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var notes = require('./routes/notes');
 
 var app = express();
 
@@ -47,8 +26,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+// Make our db acessible to our router
+app.use(function(req,res,next) {
+  req.db = db;
+  next();
+});
+
+app.use('/', notes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
