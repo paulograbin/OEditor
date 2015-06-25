@@ -1,40 +1,14 @@
 extends layout
 
 block content
-		nav.navbar.navbar-inverse.navbar-fixed-top
-			div.container
-				div.navbar-header
-					button.navbar-toggle
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a.navbar-brand(href="#") O Editor de Texto
-				div.collapse.navbar-collapse
-					ul.nav.navbar-nav.navbar-left
-						li: a(href="http://paulograbin.github.io/relatorio.pdf") Relatório
-						li: a(href="https://github.com/paulograbin/note_editor") Código fonte
-
+	body
 		form 
 			div.container
 				header.jumbotron.hero-spacer
-					h1 Olá, digite seu texto abaixo:
-					input(id="editor1" name="text")
-					
-					script. 
-						CKEDITOR.replace( 'text' )
-
-					p: input.btn.btn-primary.btn-large(type="submit" name= "submit" value="Save")
-
-		div.row
-			div.col-lg-12
-				h3 Últimas notas salvas...
-
-		table.table.table-striped
-			tr
-				th.col-md-1 Número
-				th.col-md-9 Texto
-				th.col-md-2 Ações
-
-
-
+					h4 Olá, preencha seus dados:
+					h4 Usuário: 
+					input(id="username" name="username")
+					h4 Senha: 
+					input(id="password" name="password")
+					<br><br>
+					p: input.btn.btn-primary.btn-large(type="button" name="login" value="Login" onclick="login()")
