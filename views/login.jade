@@ -1,7 +1,6 @@
 extends layout
 
 block content
-	body
 		nav.navbar.navbar-inverse.navbar-fixed-top
 			div.container
 				div.navbar-header
@@ -20,8 +19,8 @@ block content
 			div.container
 				header.jumbotron.hero-spacer
 					h1 Olá, digite seu texto abaixo:
-					textarea(id="editor1" name="text" rows=10 cols=80) Aqui você pode <strong>digitar</strong> e <em>formatar</em> seu texto como bem entender. <br> Quando estiver pronto é só clicar no botão salvar logo abaixo.
-
+					input(id="editor1" name="text")
+					
 					script. 
 						CKEDITOR.replace( 'text' )
 
