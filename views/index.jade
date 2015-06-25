@@ -1,18 +1,8 @@
-doctype
-html(.lang="pt" )
-	head
-		title O Editor
-		
-		script( src='/../ckeditor/ckeditor.js' )
+extends layout
 
-		// Bootstrap Core CSS
-		link(href="/../bootstrap/css/bootstrap.min.css", rel="stylesheet")
+block content		
+	script( src='/../ckeditor/ckeditor.js' )
 
-		// Custom theme
-		link(href="/../bootstrap/css/heroic-features.css", rel="stylesheet")
- 
-	body
- 
 		nav.navbar.navbar-inverse.navbar-fixed-top
 			div.container
 				div.navbar-header
