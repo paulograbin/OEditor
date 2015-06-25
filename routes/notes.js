@@ -7,6 +7,12 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/* GET login page. */
+router.get('/login', function(req, res, next) {
+  console.log("login...");
+  res.render('login', { title: 'Login' });
+});
+
 /* GET notes listing. */
 // router.get('/', function(req, res, next) {
 // 	console.log("teste");
