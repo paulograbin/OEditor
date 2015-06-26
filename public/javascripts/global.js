@@ -1,8 +1,10 @@
-function global.login(){
-	alert('d');
+console.log("Inicializou o global.js");
+
+var login = function (){
+	window.location='http://www.google.com';
 }
 
-module.exports = {
+var exports = {
   foo: function () {
     alert('d');
   },
