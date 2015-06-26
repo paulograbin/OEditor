@@ -13,19 +13,19 @@ block content
 
 					p: input.btn.btn-primary.btn-large(type="button" name= "btnSave" id="btnSave" value="Save")
 
-		div.row
-			div.col-lg-12
-				h3(align="center") Últimas notas salvas:
+				div.row
+					div.col-lg-12
+						h3(align="center") Últimas notas salvas:
 
-		table.table.table-striped(style="width:60%")(align="center")
-			tr
-				th.col-md-1 Número
-				th.col-md-9 Texto
-				th.col-md-2 Ações
-			tr(id="trListNotes")
-				td.col-md1 Aqui temos que fazer o loop 
-				td.col-md9 Aqui temos que fazer o loop
-				td.col-md2 Aqui temos que fazer o loop
+				table.table.table-striped
+					tr
+						th.col-md-1 Número
+						th.col-md-9 Texto
+						th.col-md-2 Ações
+					tr(id="trListNotes")
+						td.col-md1 Aqui temos que fazer o loop 
+						td.col-md9 Aqui temos que fazer o loop
+						td.col-md2 Aqui temos que fazer o loop
 		
 		script.
 			$.ajax({
