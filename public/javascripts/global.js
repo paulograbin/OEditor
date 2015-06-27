@@ -1,13 +1,17 @@
 console.log("Inicializou o global.js");
+var textoPadraoEditor = null;
 
+var id = null;
 $(document ).ready(function() {
-
+    textoPadraoEditor =  CKEDITOR.instances.editor1.getData();
     populaTabela();
     
-    $('#btnSave').on('click', adicionaNota);
+    $('#btnSave').on('click', adicionarOuEditarNota);
 
     // Delete Note link click
     $('table tbody').on('click', 'td a.linkdeleteuser', apagaNota);
+    $('table tbody').on('click', 'td a.linkshowuser', abreNota);
+
 });
 
 function populaTabela() {
@@ -24,9 +28,9 @@ function populaTabela() {
             $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td>' + cont + '</td>';
-            tableContent += '<td>' + this.text + '</td>';
+            tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
             tableContent += '<td>' + this.datetime + '</td>';
-            tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" num="' + cont + '" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
             tableContent += '</tr>';
 
                 cont += 1;
@@ -37,6 +41,12 @@ function populaTabela() {
         });
 }
 
+function limparConteudo(){
+    CKEDITOR.instances.editor1.setData(textoPadraoEditor);
+    id = null;
+    $("#btnSave").val('Salvar nova nota');
+}
+
 function adicionaNota() {
     console.log("Adicionando nova nota...");
 
@@ -45,7 +55,7 @@ function adicionaNota() {
     // If it is, compile all user info into one object
     var note = {
         'datetime': datetime.toLocaleString(),
-        'text': $("#editor1").val(),
+        'text':  CKEDITOR.instances.editor1.getData()
     }
 
     // Use AJAX to post the object to our adduser service
@@ -58,13 +68,33 @@ function adicionaNota() {
         if (response.msg === '') {
             alert("Registro inserido com sucesso!");
         }
-
+        limparConteudo();
         populaTabela();
+
     });
 }
+function editarNota(id) {
+    //Chama requsicao para alteracao da nota
+    //NO DONE chamar a seguinte funcao
+   limparConteudo();
+}
 
-function editaNota() {
-    console.log("Editando nota...");
+function adicionarOuEditarNota () {
+    if(id){
+        adicionaNota();    
+    }else{
+        editarNota(id);
+    }
+}
+
+function abreNota() {
+    console.log("Editando note " + $(this).attr('rel'));
+    id = $(this).attr('rel');
+
+    var textoNotaEdicao = $("#note"+ $(this).attr('num')).html();
+    CKEDITOR.instances.editor1.setData(textoNotaEdicao);
+
+    $("#btnSave").val('Salvar nota ' + $(this).attr('num'));
 }
 
 function apagaNota() {
