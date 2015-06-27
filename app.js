@@ -6,9 +6,15 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Database
+
 var mongo = require('mongoskin');
-var db = mongo.db("mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
-// var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true}); 
+if(process.argv[2] == 'local') {
+  console.log("Rodando local!");
+  var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true});
+} else {
+  var db = mongo.db("mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
+}
+
 
 var notes = require('./routes/notes');
 

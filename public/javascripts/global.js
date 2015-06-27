@@ -3,16 +3,18 @@ console.log("Inicializou o global.js");
 var textoPadraoEditor = null;
 var id = null;
 
-$(document ).ready(function() {
-    textoPadraoEditor =  CKEDITOR.instances.editor1.getData();
+$(document).ready(function() {
+    textoPadraoEditor = CKEDITOR.instances.editor1.getData();
     populaTabela();
 
+    // Salva nota click
     $('#btnSave').on('click', adicionarOuEditarNota);
 
-    // Delete Note link click
+    // Deleta nota click
     $('table tbody').on('click', 'td a.linkdeleteuser', apagaNota);
-    $('table tbody').on('click', 'td a.linkshowuser', abreNota);
 
+    // Abre nota lick
+    $('table tbody').on('click', 'td a.linkshowuser', abreNota);
 });
 
 function populaTabela() {
@@ -23,10 +25,10 @@ function populaTabela() {
     var cont = 1;
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/listnotes', function( data ) {
+    $.getJSON( '/listnotes', function(data) {
 
       // For each item in our JSON, add a table row and cells to the content string
-      $.each(data, function(){
+      $.each(data, function() {
         tableContent += '<tr>';
         tableContent += '<td>' + cont + '</td>';
         tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
@@ -40,11 +42,9 @@ function populaTabela() {
       // Inject the whole content string into our existing HTML table
       $('table tbody').html(tableContent);
     });
-
-  console.log("Populada!");
 }
 
-function limparConteudo(){
+function limparConteudo() {
     CKEDITOR.instances.editor1.setData(textoPadraoEditor);
     id = null;
     $("#btnSave").val('Salvar nova nota');
@@ -53,43 +53,88 @@ function limparConteudo(){
 function adicionaNota() {
     console.log("Adicionando nova nota...");
 
-    var datetime = new Date();
-    console.log(datetime);
+    var errorCount = 0;
+    var text = CKEDITOR.instances.editor1.getData();
 
-    // If it is, compile all user info into one object
-    var note = {
-        'datetime': datetime.toLocaleString(),
-        'text':  CKEDITOR.instances.editor1.getData()
+    if(text.length == 0) {
+      errorCount++;
     }
 
-    // Use AJAX to post the object to our adduser service
-    $.ajax({
-        type: 'POST',
-        data: note,
-        url: '/addnote',
-        dataType: 'JSON'
-    }).done(function( response ) {
-        if (response.msg === '') {
-            alert("Registro inserido com sucesso!");
-        }
-        limparConteudo();
-        populaTabela();
-    });
+    if(errorCount === 0) {
+      var datetime = new Date();
+
+      // If it is, compile all user info into one object
+      var note = {
+          'datetime': datetime.toLocaleString(),
+          'text':  CKEDITOR.instances.editor1.getData()
+      }
+
+      // Use AJAX to post the object to our adduser service
+      $.ajax({
+          type: 'POST',
+          data: note,
+          url: '/addnote',
+          dataType: 'JSON'
+      }).done(function( response ) {
+          if (response.msg === '') {
+              // alert("Registro inserido com sucesso!");
+          }
+          limparConteudo();
+          populaTabela();
+     });
+  } else {
+    alert("Ops, faltou preencher o campo de texto!");
+  }
 }
 function editarNota(id) {
-    //Chama requsicao para alteracao da nota
-    //NO DONE chamar a seguinte funcao
-   limparConteudo();
+    console.log("Editando nota id " + id);
+
+    var errorCount = 0;
+    var text = CKEDITOR.instances.editor1.getData();
+
+    // Verifica se a caixa de texto está vazia
+    if(text.length == 0) {
+      errorCount++;
+    }
+
+    if(errorCount === 0) {
+     // If it is, compile all user info into one object
+     var note = {
+        //  'datetime': datetime.toLocaleString(),
+         'text': CKEDITOR.instances.editor1.getData(),
+     }
+
+     console.log("id: " + id);
+     console.log("text: " + note.text);
+
+     // Use AJAX to post the object to our adduser service
+     $.ajax({
+         type: 'PUT',
+         data: note,
+         url: '/editnote/' + id,
+     }).done(function(response) {
+
+         // Check for a sucessful (blank) response
+         if (response.msg === '') {
+             // alert("Registro excluido");
+         } else {
+            //  alert('Error: ' + response.msg);
+             console.log(response.msg);
+         }
+
+         // Update table
+         limparConteudo();
+         populaTabela();
+     });
+   } else {
+     alert("Ops, faltou preencher o campo de texto!");
+   }
 }
 
 function adicionarOuEditarNota () {
-    console.log("Decidindo se abrimos ou editamos a nota...");
-
     if(id) {
-      console.log("Editando...");
       editarNota(id);
     } else{
-        console.log("Adicionando...");
         adicionaNota();
     }
 }

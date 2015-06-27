@@ -43,14 +43,18 @@ router.get('/listnotes', function(req, res) {
 /*
  * PUT to editnote
  */
-router.put('/editnote', function(req, res) {
+router.put('/editnote/:id', function(req, res) {
+  console.log("Enviando nota editada pro banco...");
   console.log(req.body);
 
+  var noteToUpdate =  req.params.id;
+  var note = { $set: req.body };
+  console.log("Note to update " + noteToUpdate);
+  console.log("Note body " + note);
+
   var db = req.db;
-  db.collection('notes').updateById(req.body, function(err, result) {
-    res.send(
-      (err === null) ? { msg: '' } : { msg: err}
-    );
+  db.collection('notes').updateById(noteToUpdate, note, function(err, result) {
+  	res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + err });
   });
 })
 
