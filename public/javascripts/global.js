@@ -40,9 +40,12 @@ function populaTabela() {
 function adicionaNota() {
     console.log("Adicionando nova nota...");
 
+    var datetime = new Date();
+
     // If it is, compile all user info into one object
     var note = {
-        'text': $("#editor1").val()
+        'datetime': datetime.toLocaleString(),
+        'text': $("#editor1").val(),
     }
 
     // Use AJAX to post the object to our adduser service
