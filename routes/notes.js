@@ -29,7 +29,7 @@ router.get('/listnotes', function(req, res) {
 	console.log("Listando as notas do banco...");
 
     var db = req.db;
-    db.collection('notes').find().toArray(function (err, items) {
+    db.collection('notes').find( { deleted: "0" } ).toArray(function (err, items) {
         res.json(items);
     });
 });
@@ -71,9 +71,11 @@ router.post('/addnote', function(req, res) {
  router.delete('/deletenote/:id', function(req, res) {
    console.log("Deletando nota do banco...");
 
+   var noteToDelete =  req.params.id;
+   var note = { $set: req.body };
+
  	var db = req.db;
- 	var noteToDelete = req.params.id;
- 	db.collection('notes').removeById(noteToDelete, function(err, result) {
+ 	db.collection('notes').updateById(noteToDelete, note, function(err, result) {
  		res.send(
        (result === 1) ? { msg: '' } : { msg: 'error: ' + err }
        );

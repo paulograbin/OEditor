@@ -68,7 +68,8 @@ function adicionaNota() {
       // Se algum conteudo foi digitado, cria uma nota...
       var note = {
           'datetime': datetime.toLocaleString(),
-          'text':  CKEDITOR.instances.editor1.getData()
+          'text':  CKEDITOR.instances.editor1.getData(),
+          'deleted': 0,
       }
 
       // Requisição POST via AJAX pra postar a nota pro banco
@@ -155,14 +156,20 @@ function apagaNota() {
 
     event.preventDefault();
 
-        // Requisição DELETE via AJAX pra excluir a nota
+    var note = {
+      'deleted': 1,
+    }
+
+        // Requisição DELETE via AJAX pra excluir logicamente a nota
+        // Deleção lógica mantem a nota no banco, porem, ela não é mais acessivel
         $.ajax({
             type: 'DELETE',
+            data: note,
             url: '/deletenote/' + $(this).attr('rel')
         }).done(function( response ) {
 
             if (response.msg === '') {
-                alert("Registro excluido");
+                alert("Registro excluido com sucesso!");
             } else {
                 alert('Ops, talvez esse registro já tenha sido excluído: ' + response.msg);
             }
