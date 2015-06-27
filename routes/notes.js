@@ -15,9 +15,9 @@ router.get('/login', function(req, res, next) {
 
 /* GET relatorio */
 router.get('/relatorio', function(req, res, next) {
-  console.log("relatorio...");
+  console.log("Exibindo relatório...");
 
-  res.sendFile('../public/relatorio_GB', function (err) {
+  res.sendFile('/relatorio_GB.pdf', function (err) {
     if (err) {
       console.log(err);
       res.status(err.status).end();
