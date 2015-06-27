@@ -62,7 +62,7 @@ router.post('/addnote', function(req, res) {
 /*
  * DELETE to deletenote
  */
- router.delete('/deletenote', function(req, res) {
+ router.delete('/deletenote/:id', function(req, res) {
  	var db = req.db;
  	var noteToDelete = req.params.id;
  	db.collection('notes').removeById(noteToDelete, function(err, result) {

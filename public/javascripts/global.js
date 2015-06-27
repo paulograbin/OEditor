@@ -5,6 +5,9 @@ $(document ).ready(function() {
     populaTabela();
     
     $('#btnSave').on('click', adicionaNota);
+
+    // Delete Note link click
+    $('table tbody').on('click', 'td a.linkdeleteuser', apagaNota);
 });
 
 function populaTabela() {
@@ -19,11 +22,13 @@ function populaTabela() {
 
 //           For each item in our JSON, add a table row and cells to the content string
             $.each(data, function(){
-                tableContent += '<tr>';
-                tableContent += '<td class="col-md1">' + cont + '</td>';
-                tableContent += '<td class="col-md9">' + this.text + '</td>';
-                tableContent += '<td class="col-md2">' + "TESTE" + '</td>';
-                tableContent += '</tr>';
+            tableContent += '<tr>';
+            tableContent += '<td>' + cont + '</td>';
+            tableContent += '<td>' + this.text + '</td>';
+            tableContent += '<td>' + this.datetime + '</td>';
+            tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
+            tableContent += '</tr>';
+
                 cont += 1;
             });
 
@@ -48,7 +53,7 @@ function adicionaNota() {
         dataType: 'JSON'
     }).done(function( response ) {
         if (response.msg === '') {
-            alert("Registro inserido com sucesso!");    
+            alert("Registro inserido com sucesso!");
         }
 
         populaTabela();
@@ -60,5 +65,24 @@ function editaNota() {
 }
 
 function apagaNota() {
-    console.log("Apagando nota...");
+    console.log("Deletando note " + $(this).attr('rel'));
+
+    event.preventDefault();
+
+        // If they did, do our delete
+        $.ajax({
+            type: 'DELETE',
+            url: '/deletenote/' + $(this).attr('rel')
+        }).done(function( response ) {
+
+            // Check for a sucessful (blank) response
+            if (response.msg === '') {
+                alert("Registro excluido");
+            } else {
+                alert('Error: ' + response.msg);
+            }
+
+            // Update table
+            populaTabela();
+        });
 }
