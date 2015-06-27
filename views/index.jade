@@ -2,15 +2,16 @@ extends layout
 
 block content
 
-	form 
+	form
 		div.container
 			header.jumbotron.hero-spacer
-				h1 Olá, digite seu texto abaixo:
+				h2 Olá, digite seu texto abaixo:
 				textarea(id="editor1" name="text" rows=10 cols=80) Aqui você pode <strong>digitar</strong> e <em>formatar</em> seu texto como bem entender. <br> Quando estiver pronto é só clicar no botão salvar logo abaixo.
 
-				script. 
+				script.
 					CKEDITOR.replace( 'text' )
 
+				br
 				p: input.btn.btn-primary.btn-large(type="button" name= "btnSave" id="btnSave" value="Salvar nova nota")
 
 			div.row
@@ -24,5 +25,3 @@ block content
 					th.col-md-2 Criada em
 					th.col-md-2 Ações
 				tbody
-					
-		

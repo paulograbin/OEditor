@@ -7,27 +7,27 @@ $(document).ready(function() {
     textoPadraoEditor = CKEDITOR.instances.editor1.getData();
     populaTabela();
 
-    // Salva nota click
+    // Salva nota no evento click
     $('#btnSave').on('click', adicionarOuEditarNota);
 
-    // Deleta nota click
+    // Deleta nota no evento click
     $('table tbody').on('click', 'td a.linkdeleteuser', apagaNota);
 
-    // Abre nota lick
+    // Abre nota no evento click
     $('table tbody').on('click', 'td a.linkshowuser', abreNota);
 });
 
 function populaTabela() {
     console.log("Populando tabela...");
 
-    // Empty content string
+    // String de conteudo vazia
     var tableContent = '';
     var cont = 1;
 
-    // jQuery AJAX call for JSON
+    // Requisição GET via AJAX pra pegar todas as notas do banco
     $.getJSON( '/listnotes', function(data) {
 
-      // For each item in our JSON, add a table row and cells to the content string
+      // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
       $.each(data, function() {
         tableContent += '<tr>';
         tableContent += '<td>' + cont + '</td>';
@@ -39,7 +39,7 @@ function populaTabela() {
         cont += 1;
       });
 
-      // Inject the whole content string into our existing HTML table
+      // Injeta toda a variavel na tabela HTML existente no layout
       $('table tbody').html(tableContent);
     });
 }
@@ -56,20 +56,22 @@ function adicionaNota() {
     var errorCount = 0;
     var text = CKEDITOR.instances.editor1.getData();
 
+    // Verifica se caixa de texto está vazia
     if(text.length == 0) {
       errorCount++;
     }
 
+    // Se nenhum erro foi encontrado
     if(errorCount === 0) {
       var datetime = new Date();
 
-      // If it is, compile all user info into one object
+      // Se algum conteudo foi digitado, cria uma nota...
       var note = {
           'datetime': datetime.toLocaleString(),
           'text':  CKEDITOR.instances.editor1.getData()
       }
 
-      // Use AJAX to post the object to our adduser service
+      // Requisição POST via AJAX pra postar a nota pro banco
       $.ajax({
           type: 'POST',
           data: note,
@@ -77,8 +79,12 @@ function adicionaNota() {
           dataType: 'JSON'
       }).done(function( response ) {
           if (response.msg === '') {
-              // alert("Registro inserido com sucesso!");
+              alert("Registro inserido com sucesso!");
+          } else {
+            alert("Ops, algum problema ocorreu: " + response.msg);
           }
+
+          // Atualiza tabela e coloca o conteudo padrão no editor de texto
           limparConteudo();
           populaTabela();
      });
@@ -97,35 +103,30 @@ function editarNota(id) {
       errorCount++;
     }
 
+    // Se nenhum erro foi encontrado
     if(errorCount === 0) {
-     // If it is, compile all user info into one object
-     var note = {
-        //  'datetime': datetime.toLocaleString(),
-         'text': CKEDITOR.instances.editor1.getData(),
-     }
+      var note = {
+        'text': CKEDITOR.instances.editor1.getData(),
+      }
 
-     console.log("id: " + id);
-     console.log("text: " + note.text);
-
-     // Use AJAX to post the object to our adduser service
-     $.ajax({
+      // Requisição PUT via AJAX pra atualizar a nota no banco
+      $.ajax({
          type: 'PUT',
          data: note,
          url: '/editnote/' + id,
-     }).done(function(response) {
+      }).done(function(response) {
 
-         // Check for a sucessful (blank) response
          if (response.msg === '') {
-             // alert("Registro excluido");
+             alert("Registro alterado com sucesso!");
          } else {
-            //  alert('Error: ' + response.msg);
+             alert('Ops, algo deu errado: ' + response.msg);
              console.log(response.msg);
          }
 
-         // Update table
+         // Atualiza tabela e coloca o conteudo padrão no editor de texto
          limparConteudo();
          populaTabela();
-     });
+      });
    } else {
      alert("Ops, faltou preencher o campo de texto!");
    }
@@ -154,20 +155,19 @@ function apagaNota() {
 
     event.preventDefault();
 
-        // If they did, do our delete
+        // Requisição DELETE via AJAX pra excluir a nota
         $.ajax({
             type: 'DELETE',
             url: '/deletenote/' + $(this).attr('rel')
         }).done(function( response ) {
 
-            // Check for a sucessful (blank) response
             if (response.msg === '') {
-                // alert("Registro excluido");
+                alert("Registro excluido");
             } else {
-                alert('Error: ' + response.msg);
+                alert('Ops, talvez esse registro já tenha sido excluído: ' + response.msg);
             }
 
-            // Update table
+            // Atualiza tabela
             populaTabela();
         });
 }

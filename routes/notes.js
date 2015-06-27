@@ -3,14 +3,8 @@ var router = express.Router();
 
 /* GET home page */
 router.get('/', function(req, res, next) {
-  console.log("teste");
-  res.render('index', { title: 'Express' });
-});
-
-/* GET login page */
-router.get('/login', function(req, res, next) {
-  console.log("login...");
-  res.render('login', { title: 'Login' });
+  console.log("Acessando o index...");
+  res.render('index');
 });
 
 /* GET relatorio */
@@ -32,7 +26,7 @@ router.get('/relatorio', function(req, res, next) {
  * GET notelist.
  */
 router.get('/listnotes', function(req, res) {
-	console.log("listando notas...");
+	console.log("Listando as notas do banco...");
 
     var db = req.db;
     db.collection('notes').find().toArray(function (err, items) {
@@ -41,29 +35,27 @@ router.get('/listnotes', function(req, res) {
 });
 
 /*
- * PUT to editnote
+ * PUT editnote
  */
 router.put('/editnote/:id', function(req, res) {
   console.log("Enviando nota editada pro banco...");
-  console.log(req.body);
 
   var noteToUpdate =  req.params.id;
   var note = { $set: req.body };
-  console.log("Note to update " + noteToUpdate);
-  console.log("Note body " + note);
 
   var db = req.db;
   db.collection('notes').updateById(noteToUpdate, note, function(err, result) {
-  	res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + err });
+  	res.send(
+      (result === 1) ? { msg: '' } : { msg: 'error: ' + err }
+      );
   });
 })
 
 /*
- * POST to addnote
+ * POST addnote
  */
 router.post('/addnote', function(req, res) {
   console.log("Salvando nova nota no banco...");
-  console.log(req.body);
 
 	var db = req.db;
 	db.collection('notes').insert(req.body, function(err, result) {
@@ -74,15 +66,18 @@ router.post('/addnote', function(req, res) {
 })
 
 /*
- * DELETE to deletenote
+ * DELETE deletenote
  */
  router.delete('/deletenote/:id', function(req, res) {
+   console.log("Deletando nota do banco...");
+
  	var db = req.db;
  	var noteToDelete = req.params.id;
  	db.collection('notes').removeById(noteToDelete, function(err, result) {
- 		res.send((result === 1) ? { msg: '' } : { msg: 'error: ' + err });
+ 		res.send(
+       (result === 1) ? { msg: '' } : { msg: 'error: ' + err }
+       );
  	});
  });
-
 
 module.exports = router;

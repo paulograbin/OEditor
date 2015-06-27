@@ -6,9 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Database
-
 var mongo = require('mongoskin');
-if(process.argv[2] == 'local') {
+
+// Se foi informado o parametro --local a conexão com o banco é feita localmente
+// Caso contrário a conexão é feita no Mongolab
+if(process.argv[2] == '--local') {
   console.log("Rodando local!");
   var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true});
 } else {
@@ -26,7 +28,7 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -72,6 +74,6 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(3000);
-console.log("App listening on port 3000");
+console.log("OEditor está rodando na porta 3000");
 
 module.exports = app;
