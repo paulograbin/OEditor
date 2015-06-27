@@ -1,16 +1,31 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
+/* GET home page */
 router.get('/', function(req, res, next) {
   console.log("teste");
   res.render('index', { title: 'Express' });
 });
 
-/* GET login page. */
+/* GET login page */
 router.get('/login', function(req, res, next) {
   console.log("login...");
   res.render('login', { title: 'Login' });
+});
+
+/* GET relatorio */
+router.get('/relatorio', function(req, res, next) {
+  console.log("relatorio...");
+
+  res.sendFile('../public/relatorio_GB', function (err) {
+    if (err) {
+      console.log(err);
+      res.status(err.status).end();
+    }
+    else {
+      console.log('Sent:', fileName);
+    }
+  });
 });
 
 /* GET notes listing. */
@@ -24,7 +39,7 @@ router.get('/login', function(req, res, next) {
  * GET notelist.
  */
 router.get('/listnotes', function(req, res) {
-	console.log("teste");
+	console.log("listando notas...");
 
     var db = req.db;
     db.collection('notes').find().toArray(function (err, items) {

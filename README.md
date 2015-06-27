@@ -1,5 +1,11 @@
-# paulograbin.github.io
-Pra ser usado durante a cadeira de Desenvolvimento para a Web da Unisinos em 2015/1.
+# OEditor
+Repositório para ser utilizado durante a cadeira de Desenvolvimento para a Web da Unisinos em 2015/1.
+
+
+**GA:**
+
+
+**GB:**
 
 É necessário ter o framework Node.JS instalado na maquina pra rodar localmente.
 O banco de dados utilizado é o MongoDB, sendo hospedado no site mongolab.com.
