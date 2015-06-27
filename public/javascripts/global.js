@@ -1,11 +1,12 @@
 console.log("Inicializou o global.js");
-var textoPadraoEditor = null;
 
+var textoPadraoEditor = null;
 var id = null;
+
 $(document ).ready(function() {
     textoPadraoEditor =  CKEDITOR.instances.editor1.getData();
     populaTabela();
-    
+
     $('#btnSave').on('click', adicionarOuEditarNota);
 
     // Delete Note link click
@@ -18,27 +19,29 @@ function populaTabela() {
     console.log("Populando tabela...");
 
     // Empty content string
-        var tableContent = '';
-        var cont = 1;
-        
-        // jQuery AJAX call for JSON
-        $.getJSON( '/listnotes', function( data ) {
+    var tableContent = '';
+    var cont = 1;
 
-//           For each item in our JSON, add a table row and cells to the content string
-            $.each(data, function(){
-            tableContent += '<tr>';
-            tableContent += '<td>' + cont + '</td>';
-            tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
-            tableContent += '<td>' + this.datetime + '</td>';
-            tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" num="' + cont + '" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
-            tableContent += '</tr>';
+    // jQuery AJAX call for JSON
+    $.getJSON( '/listnotes', function( data ) {
 
-                cont += 1;
-            });
+      // For each item in our JSON, add a table row and cells to the content string
+      $.each(data, function(){
+        tableContent += '<tr>';
+        tableContent += '<td>' + cont + '</td>';
+        tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
+        tableContent += '<td>' + this.datetime + '</td>';
+        tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" num="' + cont + '" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
+        tableContent += '</tr>';
 
-            // Inject the whole content string into our existing HTML table
-            $('table tbody').html(tableContent);
-        });
+        cont += 1;
+      });
+
+      // Inject the whole content string into our existing HTML table
+      $('table tbody').html(tableContent);
+    });
+
+  console.log("Populada!");
 }
 
 function limparConteudo(){
@@ -51,6 +54,7 @@ function adicionaNota() {
     console.log("Adicionando nova nota...");
 
     var datetime = new Date();
+    console.log(datetime);
 
     // If it is, compile all user info into one object
     var note = {
@@ -70,7 +74,6 @@ function adicionaNota() {
         }
         limparConteudo();
         populaTabela();
-
     });
 }
 function editarNota(id) {
@@ -80,10 +83,14 @@ function editarNota(id) {
 }
 
 function adicionarOuEditarNota () {
-    if(id){
-        adicionaNota();    
-    }else{
-        editarNota(id);
+    console.log("Decidindo se abrimos ou editamos a nota...");
+
+    if(id) {
+      console.log("Editando...");
+      editarNota(id);
+    } else{
+        console.log("Adicionando...");
+        adicionaNota();
     }
 }
 
@@ -110,7 +117,7 @@ function apagaNota() {
 
             // Check for a sucessful (blank) response
             if (response.msg === '') {
-                alert("Registro excluido");
+                // alert("Registro excluido");
             } else {
                 alert('Error: ' + response.msg);
             }

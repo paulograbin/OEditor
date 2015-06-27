@@ -28,13 +28,6 @@ router.get('/relatorio', function(req, res, next) {
   });
 });
 
-/* GET notes listing. */
-// router.get('/', function(req, res, next) {
-// 	console.log("teste");
-
-// 	res.send('respond with a resource');
-// });
-
 /*
  * GET notelist.
  */
@@ -48,9 +41,26 @@ router.get('/listnotes', function(req, res) {
 });
 
 /*
+ * PUT to editnote
+ */
+router.put('/editnote', function(req, res) {
+  console.log(req.body);
+
+  var db = req.db;
+  db.collection('notes').updateById(req.body, function(err, result) {
+    res.send(
+      (err === null) ? { msg: '' } : { msg: err}
+    );
+  });
+})
+
+/*
  * POST to addnote
  */
 router.post('/addnote', function(req, res) {
+  console.log("Salvando nova nota no banco...");
+  console.log(req.body);
+
 	var db = req.db;
 	db.collection('notes').insert(req.body, function(err, result) {
 		res.send(
