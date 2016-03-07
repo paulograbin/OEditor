@@ -7,13 +7,6 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-/* GET relatorio */
-router.get('/relatorio', function(req, res, next) {
-  console.log("Exibindo relatório...");
-
-  res.redirect('https://docs.google.com/document/d/1vU2XjfEHT8M7CG7h1o7PtC-YqC056lC3c8IZhgJAm9A/pub');
-});
-
 /*
  * GET notelist.
  */
