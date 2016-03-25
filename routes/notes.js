@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 /*
  * GET notelist.
  */
-router.get('/listnotes', function(req, res) {
+router.get('/notes', function(req, res) {
 	console.log("Listando as notas do banco...");
 
     var db = req.db;
