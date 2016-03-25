@@ -165,7 +165,7 @@ function apagaNota() {
         $.ajax({
             type: 'DELETE',
             data: note,
-            url: '/delete/' + $(this).attr('rel')
+            url: '/notes/' + $(this).attr('rel')
         }).done(function( response ) {
 
             if (response.msg === '') {

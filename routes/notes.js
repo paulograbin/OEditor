@@ -53,7 +53,7 @@ router.post('/notes', function(req, res) {
 /*
  * DELETE deletenote
  */
- router.delete('/delete/:id', function(req, res) {
+ router.delete('/notes/:id', function(req, res) {
    console.log("Deletando nota do banco...");
 
    var noteToDelete =  req.params.id;
