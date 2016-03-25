@@ -7,17 +7,10 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
-/* GET relatorio */
-router.get('/relatorio', function(req, res, next) {
-  console.log("Exibindo relatório...");
-
-  res.redirect('https://docs.google.com/document/d/1vU2XjfEHT8M7CG7h1o7PtC-YqC056lC3c8IZhgJAm9A/pub');
-});
-
 /*
  * GET notelist.
  */
-router.get('/listnotes', function(req, res) {
+router.get('/notes', function(req, res) {
 	console.log("Listando as notas do banco...");
 
     var db = req.db;
@@ -29,7 +22,7 @@ router.get('/listnotes', function(req, res) {
 /*
  * PUT editnote
  */
-router.put('/editnote/:id', function(req, res) {
+router.put('/notes/:id', function(req, res) {
   console.log("Enviando nota editada pro banco...");
 
   var noteToUpdate =  req.params.id;
@@ -46,7 +39,7 @@ router.put('/editnote/:id', function(req, res) {
 /*
  * POST addnote
  */
-router.post('/addnote', function(req, res) {
+router.post('/notes', function(req, res) {
   console.log("Salvando nova nota no banco...");
 
 	var db = req.db;
@@ -60,7 +53,7 @@ router.post('/addnote', function(req, res) {
 /*
  * DELETE deletenote
  */
- router.delete('/deletenote/:id', function(req, res) {
+ router.delete('/notes/:id', function(req, res) {
    console.log("Deletando nota do banco...");
 
    var noteToDelete =  req.params.id;

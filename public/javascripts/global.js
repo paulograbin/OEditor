@@ -25,7 +25,7 @@ function populaTabela() {
     var cont = 1;
 
     // Requisição GET via AJAX pra pegar todas as notas do banco
-    $.getJSON( '/listnotes', function(data) {
+    $.getJSON( '/notes', function(data) {
 
       // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
       $.each(data, function() {
@@ -76,7 +76,7 @@ function adicionaNota() {
       $.ajax({
           type: 'POST',
           data: note,
-          url: '/addnote',
+          url: '/notes',
           dataType: 'JSON'
       }).done(function( response ) {
           if (response.msg === '') {
@@ -114,7 +114,7 @@ function editarNota(id) {
       $.ajax({
          type: 'PUT',
          data: note,
-         url: '/editnote/' + id,
+         url: '/notes/' + id,
       }).done(function(response) {
 
          if (response.msg === '') {
@@ -165,7 +165,7 @@ function apagaNota() {
         $.ajax({
             type: 'DELETE',
             data: note,
-            url: '/deletenote/' + $(this).attr('rel')
+            url: '/notes/' + $(this).attr('rel')
         }).done(function( response ) {
 
             if (response.msg === '') {
