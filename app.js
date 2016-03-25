@@ -7,19 +7,9 @@ var bodyParser = require('body-parser');
 
 // Database
 var mongo = require('mongoskin');
-
-// Se foi informado o parametro --local a conexão com o banco é feita localmente
-// Caso contrário a conexão é feita no Mongolab
-if(process.argv[2] == '--local') {
-  console.log("Rodando local!");
-  var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true});
-} else {
-  var db = mongo.db("mongodb://devweb:devweb@ds029307.mongolab.com:29307/oeditor", {native_parser:true});
-}
-
+var db = mongo.db("mongodb://localhost:27017/editor", {native_parser:true});
 
 var notes = require('./routes/notes');
-
 var app = express();
 
 // view engine setup
