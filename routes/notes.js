@@ -22,7 +22,7 @@ router.get('/notes', function(req, res) {
 /*
  * PUT editnote
  */
-router.put('/editnote/:id', function(req, res) {
+router.put('/notes/:id', function(req, res) {
   console.log("Enviando nota editada pro banco...");
 
   var noteToUpdate =  req.params.id;

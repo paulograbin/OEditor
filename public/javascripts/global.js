@@ -114,7 +114,7 @@ function editarNota(id) {
       $.ajax({
          type: 'PUT',
          data: note,
-         url: '/editnote/' + id,
+         url: '/notes/' + id,
       }).done(function(response) {
 
          if (response.msg === '') {
