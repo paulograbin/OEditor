@@ -39,7 +39,7 @@ router.put('/editnote/:id', function(req, res) {
 /*
  * POST addnote
  */
-router.post('/addnote', function(req, res) {
+router.post('/notes', function(req, res) {
   console.log("Salvando nova nota no banco...");
 
 	var db = req.db;

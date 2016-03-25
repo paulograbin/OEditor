@@ -76,7 +76,7 @@ function adicionaNota() {
       $.ajax({
           type: 'POST',
           data: note,
-          url: '/addnote',
+          url: '/notes',
           dataType: 'JSON'
       }).done(function( response ) {
           if (response.msg === '') {
