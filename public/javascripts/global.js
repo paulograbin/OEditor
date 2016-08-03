@@ -25,15 +25,16 @@ function populaTabela() {
     var cont = 1;
 
     // Requisição GET via AJAX pra pegar todas as notas do banco
-    $.getJSON( '/notes', function(data) {
+    $.getJSON('http://localhost:3000/notes', function(data) {
 
       // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
       $.each(data, function() {
+        console.log(data);
+
         tableContent += '<tr>';
         tableContent += '<td>' + cont + '</td>';
         tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
-        tableContent += '<td>' + this.datetime + '</td>';
-        tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" num="' + cont + '" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
+        tableContent += '<td>' + this.creationDate  + '</td>';
         tableContent += '</tr>';
 
         cont += 1;
@@ -68,15 +69,14 @@ function adicionaNota() {
       // Se algum conteudo foi digitado, cria uma nota...
       var note = {
           'datetime': datetime.toLocaleString(),
-          'text':  CKEDITOR.instances.editor1.getData(),
-          'deleted': 0,
+          'text':  CKEDITOR.instances.editor1.getData()
       }
 
       // Requisição POST via AJAX pra postar a nota pro banco
       $.ajax({
           type: 'POST',
           data: note,
-          url: '/notes',
+          url: 'http://localhost:3000/notes',
           dataType: 'JSON'
       }).done(function( response ) {
           if (response.msg === '') {
