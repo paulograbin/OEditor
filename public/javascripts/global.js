@@ -34,7 +34,8 @@ function populaTabela() {
         tableContent += '<tr>';
         tableContent += '<td>' + cont + '</td>';
         tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
-        tableContent += '<td>' + this.creationDate  + '</td>';
+        tableContent += '<td>' + getDateFromDateObject(this.creationDate.date) + " " + getTimeFromDateObject(this.creationDate.time) + '</td>';
+        
         tableContent += '</tr>';
 
         cont += 1;
@@ -43,6 +44,14 @@ function populaTabela() {
       // Injeta toda a variavel na tabela HTML existente no layout
       $('table tbody').html(tableContent);
     });
+}
+
+function getDateFromDateObject(dateObject) {
+  return dateObject.day + '/'+ dateObject.month + '/'+ dateObject.year
+}
+
+function getTimeFromDateObject(dateObject) {
+  return dateObject.hour + ':' + dateObject.minute + ':'+ dateObject.second;
 }
 
 function limparConteudo() {
