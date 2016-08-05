@@ -29,8 +29,6 @@ function populaTabela() {
 
       // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
       $.each(data, function() {
-        console.log(data);
-
         tableContent += '<tr>';
         tableContent += '<td>' + cont + '</td>';
         tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
@@ -88,7 +86,7 @@ function adicionaNota() {
           url: 'http://localhost:3000/notes',
           dataType: 'JSON'
       }).done(function( response ) {
-          if (response.msg === '') {
+          if (response.success == true) {
               alert("Registro inserido com sucesso!");
           } else {
             alert("Ops, algum problema ocorreu: " + response.msg);

@@ -12,11 +12,6 @@ router.get('/', function(req, res, next) {
  */
 router.get('/notes', function(req, res) {
   console.log("Listando as notas do banco...");
-
-    // var db = req.db;
-    // db.collection('notes').find( { deleted: "0" } ).toArray(function (err, items) {
-    //     res.json(items);
-    // });
 });
 
 /*
@@ -27,36 +22,20 @@ router.put('/notes/:id', function(req, res) {
 
   var noteToUpdate =  req.params.id;
   var note = { $set: req.body };
-
-  // var db = req.db;
-  // db.collection('notes').updateById(noteToUpdate, note, function(err, result) {
-  //  res.send(
-  //     (result === 1) ? { msg: '' } : { msg: 'error: ' + err }
-  //     );
-  // });
 })
 
 /*
  * POST addnote
  */
-router.post('/notesadd', function(req, res) {
+router.post('/notes', function(req, res) {
   console.log("Salvando nova nota no banco...");
 
   var content = req.body;
   console.log(content);
-
-
+    
    res.status(200);
    res.send();
 })
-
-/*  var db = req.db;
-  db.collection('notes').insert(req.body, function(err, result) {
-    res.send(
-      (err === null) ? { msg: '' } : { msg: err}
-    );
-  });
-*/
 
 
 /*
@@ -67,13 +46,6 @@ router.post('/notesadd', function(req, res) {
 
    var noteToDelete =  req.params.id;
    var note = { $set: req.body };
-
-  // var db = req.db;
-  // db.collection('notes').updateById(noteToDelete, note, function(err, result) {
-  //  res.send(
-  //      (result === 1) ? { msg: '' } : { msg: 'error: ' + err }
-  //      );
-  // });
  });
 
 module.exports = router;
