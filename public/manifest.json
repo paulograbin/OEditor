@@ -1,0 +1,8 @@
+{
+	"name": "OEditor app",
+	"short_name": "OEditor web",
+	"start_url": ".",
+	"display": "standalone",
+	"backgrond_color": "white",
+	"description": "A simple notes editor app"
+}
