@@ -22,29 +22,30 @@ $(document).ready(function() {
 function populaTabela() {
     // Requisição GET via AJAX pra pegar todas as notas do banco
     console.log("Requisitando notas...");
-    $.getJSON('http://localhost:3000/notes', function(data) {
-    console.log(data.length + " notas encontadas...");
 
-      var tableContent = '';
-      var cont = 1;
+    $.getJSON('http://localhost:3000/notes', function(returnedJson) {
 
-      // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
-      $.each(data, function() {
-        console.log(this);
+        var tableContent = '';
+        var cont = 1;
 
-        if(this.deleted == true) 
-          return;
+        // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
 
-        tableContent += '<tr>';
-        tableContent += '<td>' + cont + '</td>';
-        tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
-        tableContent += '<td>' + getDateFromDateObject(this.creationDate.date) + " " + getTimeFromDateObject(this.creationDate.time) + '</td>';
-        tableContent += '<td>' + "<a ref='#' class='linkOpenNote btn btn-success btn-large' rel='" + this.id + "'" + "num='" + cont + "' + >Editar" + "</a>";
-        tableContent +=          "<a ref='#' class='linkDeleteNote btn btn-danger btn-large' rel='" + this.id + "'>Apagar" + "</a>" + '</td>';
-        tableContent += "<div class='grabin'>" + this + "</div>";
-        tableContent += '</tr>';
+        $.each(returnedJson.data.result.notes, function() {
+            if(this.deleted == true)
+              return;
 
-        cont += 1;
+            console.log("tentando", this.notes);
+
+            tableContent += '<tr>';
+            tableContent += '<td>' + cont + '</td>';
+            tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
+            tableContent += '<td>' + getDateFromDateObject(this.creationDate.date) + " " + getTimeFromDateObject(this.creationDate.time) + '</td>';
+            tableContent += '<td>' + "<a ref='#' class='linkOpenNote btn btn-success btn-large' rel='" + this.id + "'" + "num='" + cont + "' + >Editar" + "</a>";
+            tableContent +=          "<a ref='#' class='linkDeleteNote btn btn-danger btn-large' rel='" + this.id + "'>Apagar" + "</a>" + '</td>';
+            tableContent += "<div class='grabin'>" + this + "</div>";
+            tableContent += '</tr>';
+
+            cont += 1;
       });
 
       // Injeta toda a variavel na tabela HTML existente no layout

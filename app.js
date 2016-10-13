@@ -20,12 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Make our db acessible to our router
-app.use(function(req,res,next) {
-  // req.db = db;
-  next();
-});
-
 app.use('/', notes);
 
 // catch 404 and forward to error handler
