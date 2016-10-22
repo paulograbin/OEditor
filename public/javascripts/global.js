@@ -2,6 +2,9 @@
 
 console.log("Inicializou o global.js");
 
+var currentApiAddress = "https://oeditor-spring.herokuapp.com/notes";
+// var currentApiAddress = "http://localhost:3000/notes";
+
 var textoPadraoEditor = null;
 var id = null;
 
@@ -23,8 +26,7 @@ function populaTabela() {
     // Requisição GET via AJAX pra pegar todas as notas do banco
     console.log("Requisitando notas...");
 
-    $.getJSON('http://localhost:3000/notes', function(returnedJson) {
-
+    $.getJSON(currentApiAddress, function(returnedJson) {
         var tableContent = '';
         var cont = 1;
 
@@ -33,8 +35,6 @@ function populaTabela() {
         $.each(returnedJson.data.result.notes, function() {
             if(this.deleted == true)
               return;
-
-            console.log("tentando", this.notes);
 
             tableContent += '<tr>';
             tableContent += '<td>' + cont + '</td>';
@@ -89,7 +89,7 @@ function salvarNotaNova() {
       $.ajax({
           type: 'POST',
           data: note,
-          url: 'http://localhost:3000/notes',
+          url: currentApiAddress,
           dataType: 'JSON'
       }).done(function( response ) {
           if (response.success == true) {
@@ -129,7 +129,7 @@ function salvarNotaEditada(id) {
       $.ajax({
          type: 'PUT',
          data: note,
-         url: 'http://localhost:3000/notes/' + id,
+         url: currentApiAddress + '/' + id,
          dataType: 'JSON',
       }).done(function(response) {
 
@@ -172,7 +172,7 @@ function apagaNota() {
 
     $.ajax({
         type: 'DELETE',
-        url: 'http://localhost:3000/notes/' + $(this).attr('rel'),
+        url: currentApiAddress + '/' + $(this).attr('rel'),
         dataType: 'JSON'
     }).done(function( response ) {
         if (response.success == true) {

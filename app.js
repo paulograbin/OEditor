@@ -1,28 +1,22 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 var compression = require('compression');
 
-var notes = require('./routes/notes');
+var homeController = require("./controllers/home.js");
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(__dirname + '/public/favicon.ico'));
-//app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Home controller
+app.get('/', homeController.index);
 
-app.use('/', notes);
+// cache
+var oneDay = 86400000;
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
 
+// compression of response content
 app.use(compression({
   threshold: 256
 }));
@@ -34,8 +28,5 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-
-app.listen(4300);
 console.log("OEditor está rodando na porta 4300");
-
-module.exports = app;
+app.listen(4300);
