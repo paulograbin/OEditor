@@ -1,4 +1,9 @@
+'use strict';
+
 console.log("Inicializou o global.js");
+
+var currentApiAddress = "https://oeditor-spring.herokuapp.com/notes";
+// var currentApiAddress = "http://localhost:3000/notes";
 
 var textoPadraoEditor = null;
 var id = null;
@@ -8,40 +13,52 @@ $(document).ready(function() {
     populaTabela();
 
     // Salva nota no evento click
-    $('#btnSave').on('click', adicionarOuEditarNota);
+    $('#btnSave').on('click', salvarNota);
 
     // Deleta nota no evento click
-    $('table tbody').on('click', 'td a.linkdeleteuser', apagaNota);
+    $('table tbody').on('click', 'td a.linkDeleteNote', apagaNota);
 
     // Abre nota no evento click
-    $('table tbody').on('click', 'td a.linkshowuser', abreNota);
+    $('table tbody').on('click', 'td a.linkOpenNote', abreNota);
 });
 
 function populaTabela() {
-    console.log("Populando tabela...");
-
-    // String de conteudo vazia
-    var tableContent = '';
-    var cont = 1;
-
     // Requisição GET via AJAX pra pegar todas as notas do banco
-    $.getJSON( '/notes', function(data) {
+    console.log("Requisitando notas...");
 
-      // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
-      $.each(data, function() {
-        tableContent += '<tr>';
-        tableContent += '<td>' + cont + '</td>';
-        tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
-        tableContent += '<td>' + this.datetime + '</td>';
-        tableContent += '<td><a href="#" class="linkshowuser btn btn-success btn-large" num="' + cont + '" rel="' + this._id + '">Editar</a><a href="#" class="linkdeleteuser btn btn-danger btn-large" rel="' + this._id + '">Deletar</a></td>';
-        tableContent += '</tr>';
+    $.getJSON(currentApiAddress, function(returnedJson) {
+        var tableContent = '';
+        var cont = 1;
 
-        cont += 1;
+        // Para cada item no JSON uma nova linha na tabela é adiciona com o conteudo
+
+        $.each(returnedJson.data.result.notes, function() {
+            if(this.deleted == true)
+              return;
+
+            tableContent += '<tr>';
+            tableContent += '<td>' + cont + '</td>';
+            tableContent += '<td id="note'+ cont +'">' + this.text + '</td>';
+            tableContent += '<td>' + getDateFromDateObject(this.creationDate.date) + " " + getTimeFromDateObject(this.creationDate.time) + '</td>';
+            tableContent += '<td>' + "<a ref='#' class='linkOpenNote btn btn-success btn-large' rel='" + this.id + "'" + "num='" + cont + "' + >Editar" + "</a>";
+            tableContent +=          "<a ref='#' class='linkDeleteNote btn btn-danger btn-large' rel='" + this.id + "'>Apagar" + "</a>" + '</td>';
+            tableContent += "<div class='grabin'>" + this + "</div>";
+            tableContent += '</tr>';
+
+            cont += 1;
       });
 
       // Injeta toda a variavel na tabela HTML existente no layout
       $('table tbody').html(tableContent);
     });
+}
+
+function getDateFromDateObject(dateObject) {
+  return dateObject.day + '/'+ dateObject.month + '/'+ dateObject.year
+}
+
+function getTimeFromDateObject(dateObject) {
+  return dateObject.hour + ':' + dateObject.minute + ':'+ dateObject.second;
 }
 
 function limparConteudo() {
@@ -50,7 +67,7 @@ function limparConteudo() {
     $("#btnSave").val('Salvar nova nota');
 }
 
-function adicionaNota() {
+function salvarNotaNova() {
     console.log("Adicionando nova nota...");
 
     var errorCount = 0;
@@ -63,23 +80,19 @@ function adicionaNota() {
 
     // Se nenhum erro foi encontrado
     if(errorCount === 0) {
-      var datetime = new Date();
-
       // Se algum conteudo foi digitado, cria uma nota...
       var note = {
-          'datetime': datetime.toLocaleString(),
-          'text':  CKEDITOR.instances.editor1.getData(),
-          'deleted': 0,
+          'text':  CKEDITOR.instances.editor1.getData()
       }
 
       // Requisição POST via AJAX pra postar a nota pro banco
       $.ajax({
           type: 'POST',
           data: note,
-          url: '/notes',
+          url: currentApiAddress,
           dataType: 'JSON'
       }).done(function( response ) {
-          if (response.msg === '') {
+          if (response.success == true) {
               alert("Registro inserido com sucesso!");
           } else {
             alert("Ops, algum problema ocorreu: " + response.msg);
@@ -93,7 +106,8 @@ function adicionaNota() {
     alert("Ops, faltou preencher o campo de texto!");
   }
 }
-function editarNota(id) {
+
+function salvarNotaEditada(id) {
     console.log("Editando nota id " + id);
 
     var errorCount = 0;
@@ -107,6 +121,7 @@ function editarNota(id) {
     // Se nenhum erro foi encontrado
     if(errorCount === 0) {
       var note = {
+        'id': id,
         'text': CKEDITOR.instances.editor1.getData(),
       }
 
@@ -114,10 +129,11 @@ function editarNota(id) {
       $.ajax({
          type: 'PUT',
          data: note,
-         url: '/notes/' + id,
+         url: currentApiAddress + '/' + id,
+         dataType: 'JSON',
       }).done(function(response) {
 
-         if (response.msg === '') {
+         if (response.success === true) {
              alert("Registro alterado com sucesso!");
          } else {
              alert('Ops, algo deu errado: ' + response.msg);
@@ -133,17 +149,17 @@ function editarNota(id) {
    }
 }
 
-function adicionarOuEditarNota () {
-    if(id) {
-      editarNota(id);
-    } else{
-        adicionaNota();
-    }
+function salvarNota () {
+    if(id)
+      salvarNotaEditada(id);
+    else
+      salvarNotaNova();
 }
 
 function abreNota() {
     console.log("Editando note " + $(this).attr('rel'));
     id = $(this).attr('rel');
+    console.log("id agora é " + id);
 
     var textoNotaEdicao = $("#note"+ $(this).attr('num')).html();
     CKEDITOR.instances.editor1.setData(textoNotaEdicao);
@@ -154,27 +170,19 @@ function abreNota() {
 function apagaNota() {
     console.log("Deletando note " + $(this).attr('rel'));
 
-    event.preventDefault();
+    $.ajax({
+        type: 'DELETE',
+        url: currentApiAddress + '/' + $(this).attr('rel'),
+        dataType: 'JSON'
+    }).done(function( response ) {
+        if (response.success == true) {
+            alert("Nota deletada com sucesso!");
+        } else {
+            alert("Ops, algum problema ocorreu: " + response.msg);
+        }
 
-    var note = {
-      'deleted': 1,
-    }
-
-        // Requisição DELETE via AJAX pra excluir logicamente a nota
-        // Deleção lógica mantem a nota no banco, porem, ela não é mais acessivel
-        $.ajax({
-            type: 'DELETE',
-            data: note,
-            url: '/notes/' + $(this).attr('rel')
-        }).done(function( response ) {
-
-            if (response.msg === '') {
-                alert("Registro excluido com sucesso!");
-            } else {
-                alert('Ops, talvez esse registro já tenha sido excluído: ' + response.msg);
-            }
-
-            // Atualiza tabela
-            populaTabela();
-        });
+        // Atualiza tabela e coloca o conteudo padrão no editor de texto
+        limparConteudo();
+        populaTabela();
+    });
 }
