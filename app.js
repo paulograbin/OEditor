@@ -12,15 +12,6 @@ app.set('view engine', 'jade');
 // Home controller
 app.get('/', homeController.index);
 
-// cache
-var oneDay = 86400000;
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: oneDay }));
-
-// compression of response content
-app.use(compression({
-  threshold: 256
-}));
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
